@@ -4,7 +4,7 @@
 2. Open The folder on termional 
 3. Write git init (if you dont have git got to this link https://phoenixnap.com/kb/how-to-install-git-on-ubuntu)
 4. clone the repo with "git clone https://github.com/albenahm/BS23.git"
-5. create Access Token from setting -> Developer Settings -> personal access tokens
+5. create Access Token from setting -> Developer Settings -> personal access tokens (https://www.youtube.com/watch?v=kHkQnuYzwoo&ab_channel=EdGoad)
 6. copy the token to editor
 7. go to terminnal -> open the BS23 folder
 
