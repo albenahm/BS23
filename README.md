@@ -13,7 +13,9 @@
                                            -> write git config --global user.mail "your mail"
                                            
                                            -> git config --global credentail.helper cache
-                                           
+
+                                           -> git pull
+
                                            -> your username
                                            
                                            -> your access token
