@@ -11,19 +11,19 @@ int result =0;
      
 printf("Bitte geben Sie ein Zahl ein ! ");
 scanf("%llu",&input);
-printf("%llu \n",input);
+printf("%lld \n",input);
 
 if(0<input){
      
      if(input<4294967296){
 
-        printf("While Schleife Ergebnis = %d \n",whileSchleife(input));
+        printf("While-Schleife Ergebnis = %d \n",whileSchleife(input));
         forSchleife(input,&result);
         printf("For-Schleifen-Ergebnis = %d \n",result);
      }
 
 }else{
-    printf("Die Eingabe muss echt grosser als 0 sein!");
+    printf("Die Eingabe muss echt groesser als 0 sein!");
 }
 
     return 0;
