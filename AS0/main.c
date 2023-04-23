@@ -41,7 +41,7 @@ if(input<=2147483647){
 	}
 }
 else{
-	printf("Die Eingabe ist zu klein!");
+	printf("Die Eingabe ist zu gross!");
 }
 
 
