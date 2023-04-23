@@ -18,16 +18,17 @@ forSchleife:
     mov esi, [ebp +8]     ; value wird auf esi gelegt ebp+8
     push ebx
     mov ebx, [ebp +12]     ; result wird auf ebx gelegt ebp+12
-    mov ecx, ebx        ; counter 
+    mov ecx, esi       ; counter 
     push ecx
 
 loopBedingung:
     cmp ecx,1
     jae loop         ; ecx >= 1  , dann loop
     jb endloop         ; wenn kleiner, dann endloop
+    
 loop:
-    mov eax,0        ; eax null setzen
-    mov edx,esi        ; edx auf value setzen
+    mov edx,0        ; eax null setzen
+    mov eax,esi        ; edx auf value setzen
     div ecx
     cmp edx,0
     je ohneRest        ; kein Rest vorhanden
@@ -35,8 +36,8 @@ loop:
     jmp loopBedingung
 
 ohneRest:
-    sub ecx,1        ;counter -1
-    add ebx,1        ;result +1
+    sub ecx,1        	;counter -1
+    add dword [ebx],1       ;result +1 . An Stelle von ebx Wert um 1 erhöhen. dword : 32 Bit 
     jmp loopBedingung
 
 endloop:             ; Hier wird der Stack wieder geleert.
