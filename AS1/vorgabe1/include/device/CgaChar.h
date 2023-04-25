@@ -30,6 +30,9 @@ public:
 	CgaAttr getAttr();
 
 private:
+char cgaZeichen;
+CgaAttr attrMerk;
+
 
 };
 
