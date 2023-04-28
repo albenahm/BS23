@@ -104,6 +104,7 @@ public:
 	Color getBackground()
 	{
 		Color b = (Color) ((this->attrMerk&Hintergrund)>>4);// Setze alle bits ausser Hintergrund null und dann werfe die bits von Vorgrund
+		return b;
 	}
 
 	// ermitteln ob Blink-Flag gesetzt ist
@@ -111,6 +112,10 @@ public:
 	{
 		bool blinker = (bool) ((this->attrMerk&Blinken)>>7);// Setze alle bits auf null und dann werfen
 		return blinker;
+	}
+
+	char getAttr(){
+		return this->attrMerk;
 	}
 
 private:

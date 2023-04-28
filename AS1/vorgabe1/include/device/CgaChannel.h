@@ -33,7 +33,7 @@ public:
 	explicit CgaChannel(const CgaAttr& attr);
 
 	// Die von OutputChannel deklarierte Ausgaberoutine
-	virtual int write(const char* data, int size);
+	virtual int write(const char *data, int size);
 
 	// Bluescreen mit standard Fehlermeldung
 	void blueScreen()
