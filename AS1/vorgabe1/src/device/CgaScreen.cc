@@ -21,7 +21,7 @@ CgaScreen::CgaScreen()::index(indexPort),data(dataPort){
 */
 CgaScreen::CgaScreen(CgaAttr attr)::index(indexPort),data(dataPort){
     this->screen = (CgaChar*) Offset_0;
-    this->setAttr(att);
+    this->setAttr(attr);
     clear();
 }
 
@@ -75,7 +75,7 @@ void setCursor(int column, int row){
     
     data=IOPort8(dataPort);// uebergebe den Dataport zum Zugreifen auf Data Register
     data.write(position & 0xff); // 0xff repraesentiert 00000000000000000000000011111111, somit bekommt man die letzten 8 Bits
-    index.write(High);
+    index.write(HIGH);
     data.write((position >> 8)& 0xff);
 
 }
@@ -86,7 +86,7 @@ void getCursor(int& column, int& row){
     data=IOPort8(dataPort);// uebergebe den Dataport zu Zugreifen auf Data Register
     
     unsigned int low = data.read();// lese die niederwertigsten 8 Bits
-    index.write(High); // schreibe LOW daauf 
+    index.write(HIGH); // schreibe High daauf 
     data=IOPort8(dataPort);// uebergebe die Dataport zum Zugreifen auf Data Register
     
     unsigned int high = (data.read())<<8;
