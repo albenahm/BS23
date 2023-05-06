@@ -1,40 +1,59 @@
-#ifndef OutputChannel_cc
-#define OutputChannel_cc
+#include "device/CgaScreen.h"
+#include "device/CgaChannel.h"
+#include "device/CgaAttr.h"
+#include "io/OutputChannel.h" 
+#include "io/PrintStream.h"
 
-/**
- * OutputChannel:
- * Diese Klasse ist die Abstraktion eines Ausgabekanals.
- *
- * Beachte, dass die 'write'- Methode
- * eine so genannte pure virtuelle Methode ist,
- * fuer die hier keine Implementierung
- * angegeben wird. Daher ist OutputChannel
- * eine sogenannte abstrakte Klasse.
- *
- * Man beachte:
- * Unter den auszugebenden Zeichen befinden
- * sich sogenannte Steuerzeichen, die geeignet
- * zu interpretieren sind.
- * Z.B. newline, carriage return, backspace usw.
- *
- */
+using namespace PrintStream;
 
-class OutputChannel {
+private:
+    enum Base{
+      BINARY=2;
+      DECIMAL=10;
+      HEX=16;
+    }
 public:
-	// write ist hier nicht definiert
-	// erst abgeleitete Klassen implementieren diese Methode
-	// Hinweis: der Rückgabewert spiegelt die Anzahl der ausgegebenen Zeichen wieder
-	virtual int write(const char* data, int size) = 0;
 
-	// Methode zur Ausgabe einzelner Zeichen
-	// ... aus reiner Bequemlichkeit
-   	int write(char c)
-	{
-		return write(&c, sizeof(c));
-	}
+PrintStream(OutputChannel* chan);
 
-	// Bluescreen mit eigener Fehlermeldung
-	virtual void blueScreen(const char* error) = 0;
-};
+PrintStream(OutputChannel& chan);
 
-#endif
+// Ausgabe NUll-Byte terminierter String
+void print(const char* str){
+    
+
+}
+void print(char ch){
+
+}
+
+// Ausgabe String mit Zeilenvorschub
+void println(const char* str){
+
+}
+
+//Zeilenvorschub
+void println(){
+
+}
+
+//numerische Werte werden zur Basis base ausgegeben
+// Basen 2,10 und 16
+void print(int x, int base = DECIMAL){
+
+}
+
+void print(unsigned x, int base = DECIMAL){
+
+}
+
+//Zeigertypen zur Basis 16 ausgeben
+void print(void* p){
+
+}
+
+private: 
+    OutputChannel& channel;
+    
+
+
