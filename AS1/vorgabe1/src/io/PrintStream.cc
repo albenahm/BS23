@@ -20,7 +20,7 @@ PrintStream::PrintStream(OutputChannel& chan): channel(chan){
 
 void PrintStream::print(const char* str){
 
-	int i=0; // Wir verwenden i, um die Zeichen hochzuzählen
+	int i=0;
 
 	while(str[i] != '\0'){
 
@@ -28,7 +28,7 @@ void PrintStream::print(const char* str){
 
         }
 
-        channel.write(str,i); // Wir geben den char an der Stelle aus indem wir es der write Funktion übergeben
+        channel.write(str,i);
 
 }
 
@@ -36,7 +36,7 @@ void PrintStream::print(char ch){
 
 
 
-   channel.write(ch); //Wir geben unseren char weiter 
+   channel.write(ch);
 
 
 
@@ -49,7 +49,7 @@ void PrintStream::print(char ch){
 void PrintStream::println(const char* str){
 
 	int i= 0;
-	// Identisch wie bei print(const char* str), aber am Emde wird noch \n generiert
+
 	while(str[i] != '\0'){      
 
         	i++;
@@ -58,7 +58,7 @@ void PrintStream::println(const char* str){
 
       	channel.write(str,i);
 
-    	channel.write('\n'); 
+    	channel.write('\n');
 
 }
 
@@ -68,7 +68,7 @@ void PrintStream::println(const char* str){
 
 void PrintStream::println(){
 
-	channel.write('\n');
+	print('\n');
 
 }
 
@@ -79,37 +79,38 @@ void PrintStream::println(){
 // Basen 2, 10 und 16
 
 
+
 void PrintStream::print(unsigned int x, int base){
 
 	switch(base){//Vorzeichen fuer 2,10,16
 
 		case 2:
 
-			print("0b"); // Binaerdarstellung
+			print("0b");
 
 			break;
 
 		case 10:
 
-			print("0d"); // Dezimaldarstellung
+			print("0d");
 
 			break;
 
 		case 16:
 
-			print("0x"); // Hexadezimaldarstellung
+			print("0x");
 
 			break;
 
 		default:
 
-			print("Nur 2,10,16 als base erlaubt"); //Nicht erlaubte Basen
+			print("Nur 2,10,16 als base erlaubt");//Nicht erlaubt
 
 	}
 
 	int max =32;
 
-	char zahl[max];// Maximale Bitlänge des zu erwartenden Arrays. 32 Int
+	char zahl[max];//
 
 	int i =0;
 
@@ -125,14 +126,13 @@ void PrintStream::print(unsigned int x, int base){
 
 		if(y <10){
 
-			zahl[i]=y+48; //Laut Dokumentation fangen in ASCII-Code die Zahlen bei Zeichen 48 an, geordnet,
-			//daher können wir wir 48 drauf addieren
-			
+			zahl[i]=y+48; 
+
 		}
 
-		else{ 
+		else{
 
-			switch (y){// Wir möchten Zahlen, welche größer als 10 sind mit dem entsprechendem Bushtaben ausgeben
+			switch (y){
 
 				case 10:
 
@@ -182,11 +182,13 @@ void PrintStream::print(unsigned int x, int base){
 
 	int k = i;
 
-	for(int j=0;i!=0;j++){//Array umkehren, j variable fuer Ergebnis (zaehlt hoch), i Variable fuer zahl (zaehlt runter)
+	for(int j=0;i!=-1;j++){//Array umkehren, j variable fuer Ergebnis (zaehlt hoch), i Variable fuer zahl (zaehlt runter)
 
-		ergebnis[j]=zahl[i-1];
+		ergebnis[j]=zahl[i];
 
 		i--;
+
+		
 
 	}
 
@@ -196,8 +198,9 @@ void PrintStream::print(unsigned int x, int base){
 
 	
 
-}
-// Ausgabe der Zahlen in die angegebene Basis base
+}     
+
+
 
 void PrintStream::print(int x, int base){
 
@@ -205,31 +208,31 @@ void PrintStream::print(int x, int base){
 
 		case 2:
 
-			print("0b"); // Binaerdarstellung
+			print("0b");
 
 			break;
 
 		case 10:
 
-			print("0d"); // Dezimaldarstellung
+			print("0d");
 
 			break;
 
 		case 16:
 
-			print("0x"); // Hexadezimaldarstellung
+			print("0x");
 
 			break;
 
 		default:
 
-			print("Nur 2,10,16 als base erlaubt"); //Nicht erlaubte Basen
+			print("Nur 2,10,16 als base erlaubt");//Nicht erlaubt
 
 	}
 
 	int max =32;
 
-	if(x<0){ //Minuszeichen: Wir nehmen das Minuszeichen von der Zahl weg und fügen es nach dem Rechnen hinzu
+	if(x<0){//Minuszeichen
 
 		x = x*(-1);
 
@@ -239,7 +242,7 @@ void PrintStream::print(int x, int base){
 
 	}
 
-	char zahl[max];// Maximale Bitlänge des zu erwartenden Arrays. 32 Int
+	char zahl[max];//
 
 	int i =0;
 
@@ -255,14 +258,13 @@ void PrintStream::print(int x, int base){
 
 		if(y <10){
 
-			zahl[i]=y+48; //Laut Dokumentation fangen in ASCII-Code die Zahlen bei Zeichen 48 an, geordnet,
-			//daher können wir wir 48 drauf addieren
-			
+			zahl[i]=y+48; 
+
 		}
 
-		else{ 
+		else{
 
-			switch (y){// Wir möchten Zahlen, welche größer als 10 sind mit dem entsprechendem Bushtaben ausgeben
+			switch (y){
 
 				case 10:
 
@@ -312,9 +314,13 @@ void PrintStream::print(int x, int base){
 
 	int k = i;
 
-	for(int j=0;i!=0;j++){//Array umkehren, j variable fuer Ergebnis (zaehlt hoch), i Variable fuer zahl (zaehlt runter)
+	for(int j=i;i!=-1;j--){//Array umkehren, j variable fuer Ergebnis (zaehlt hoch), i Variable fuer zahl (zaehlt runter)
 
-		ergebnis[j]=zahl[i-1];
+		ergebnis[j]=zahl[i];
+
+		i--;
+
+		channel.write(zahl[i-1]);
 
 		i--;
 
@@ -334,7 +340,7 @@ void PrintStream::print(void* p){
 
    
 
-  print((unsigned int) p, HEX); // Wir machen p einfach zu einem unsigned int und rechenen es in unserer Methode zu HEX um
+  print((unsigned int) p, HEX);
 
 
 
