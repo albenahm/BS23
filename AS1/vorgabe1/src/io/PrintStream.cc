@@ -320,10 +320,6 @@ void PrintStream::print(int x, int base){
 
 		i--;
 
-		channel.write(zahl[i-1]);
-
-		i--;
-
 	}
 
 	channel.write(ergebnis,k);
