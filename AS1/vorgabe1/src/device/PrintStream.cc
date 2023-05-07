@@ -1,9 +1,8 @@
 #include "device/CgaScreen.h"
 #include "device/CgaChannel.h"
 #include "device/CgaAttr.h"
-#include <string>
 #include "io/OutputChannel.h" 
-#include "io/PrintStream.h"
+
 
 using namespace PrintStream;
 
