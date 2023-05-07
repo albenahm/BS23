@@ -79,7 +79,124 @@ void PrintStream::println(){
 // Basen 2, 10 und 16
 
 
+void PrintStream::print(unsigned int x, int base){
 
+	switch(base){//Vorzeichen fuer 2,10,16
+
+		case 2:
+
+			print("0b"); // Binaerdarstellung
+
+			break;
+
+		case 10:
+
+			print("0d"); // Dezimaldarstellung
+
+			break;
+
+		case 16:
+
+			print("0x"); // Hexadezimaldarstellung
+
+			break;
+
+		default:
+
+			print("Nur 2,10,16 als base erlaubt"); //Nicht erlaubte Basen
+
+	}
+
+	int max =32;
+
+	char zahl[max];// Maximale Bitlänge des zu erwartenden Arrays. 32 Int
+
+	int i =0;
+
+	int y;
+
+	while(x!=0){
+
+		i++;
+
+		y = x%base;
+
+		x = (x-y)/base;
+
+		if(y <10){
+
+			zahl[i]=y+48; //Laut Dokumentation fangen in ASCII-Code die Zahlen bei Zeichen 48 an, geordnet,
+			//daher können wir wir 48 drauf addieren
+			
+		}
+
+		else{ 
+
+			switch (y){// Wir möchten Zahlen, welche größer als 10 sind mit dem entsprechendem Bushtaben ausgeben
+
+				case 10:
+
+					zahl[i]=65;
+
+					break;
+
+				case 11:
+
+					zahl[i]=66;
+
+					break;
+
+				case 12:
+
+					zahl[i]=67;
+
+					break;
+
+				case 13:
+
+					zahl[i]=68;
+
+					break;
+
+				case 14:
+
+					zahl[i]=69;
+
+					break;
+
+				case 15:
+
+					zahl[i]=70;
+
+					break;
+
+				default:print("Fehler");
+
+			}
+
+		
+
+		}
+
+	char ergebnis[i];
+
+	int k = i;
+
+	for(int j=0;i!=0;j++){//Array umkehren, j variable fuer Ergebnis (zaehlt hoch), i Variable fuer zahl (zaehlt runter)
+
+		ergebnis[j]=zahl[i-1];
+
+		i--;
+
+	}
+
+	channel.write(ergebnis,k);
+
+	}
+
+	
+
+}
 // Ausgabe der Zahlen in die angegebene Basis base
 
 void PrintStream::print(int x, int base){
