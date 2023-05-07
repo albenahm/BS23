@@ -116,6 +116,14 @@ void PrintStream::print(unsigned int x, int base){
 
 	int y;
 
+	if(x==0){
+
+		channel.write(48);
+
+		return;
+
+	}
+
 	while(x!=0){
 
 		
@@ -186,7 +194,7 @@ void PrintStream::print(unsigned int x, int base){
 
 	i--;
 
-	while(i!=-1){
+	while(i!=-1){//Ausgabe
 
 		channel.write(zahl[i]);
 
@@ -244,6 +252,14 @@ void PrintStream::print(int x, int base){
 
 	int y;
 
+	if(x==0){
+
+		channel.write(48);
+
+		return;
+
+	}
+
 	while(x!=0){
 
 		
@@ -302,19 +318,17 @@ void PrintStream::print(int x, int base){
 
 			}
 
-		
-
-		
-
 		}
 
 		i++;
 
 	}
 
+	
+
 	i--;
 
-	while(i!=-1){
+	while(i!=-1){//Ausgabe
 
 		channel.write(zahl[i]);
 
