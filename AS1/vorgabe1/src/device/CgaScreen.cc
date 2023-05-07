@@ -43,8 +43,8 @@ void CgaScreen::clear(){
 /*Hier wird der Bildschirm um eine Zeile verschoben*/
 void CgaScreen::scroll(){
 unsigned int bildschirmGroesse = COLUMNS*ROWS; // 2000 Zellen
-//unsigned int bildschirmBytes = bildschirmGroesse * 2; // da jede Zelle aus 2 Bytes besteht.
-unsigned int neuBildschirm    = bildschirmGroesse -160; // da eine Zeile aus 160 Bytes (80 Attr)(80 Char) besteht.
+unsigned int bildschirmBytes = bildschirmGroesse * 2; // da jede Zelle aus 2 Bytes besteht.
+unsigned int neuBildschirm    = bildschirmBytes -160; // da eine Zeile aus 160 Bytes (80 Attr)(80 Char) besteht.
 
 for(unsigned int i = 0; i<neuBildschirm;i++ ){
 
@@ -99,8 +99,8 @@ void CgaScreen::show(char ch, const CgaAttr& attr){
     int column,row;
     getCursor(column,row); // bekomme Zeile und Spalte
     char* position = (char*) (2*(column+row*COLUMNS)); // rechne die Position in Screen matrex
-    position = position+ Offset_0; // gehe zum Startpunkt
-    short chDecimal=(short) ch;
+    position = position+ Offset_0; // addiere zum Startpunkt
+    short chDecimal=(short) ch; 
 
     if(ch == '\n' && row <= 24){
         setCursor(0,row+1); // gehe eine Zeile runter
@@ -113,8 +113,8 @@ void CgaScreen::show(char ch, const CgaAttr& attr){
     // hier kann man die Range von ASCII kontrollieren
     if(chDecimal > 31 && chDecimal<127){
 
-        *position = ch;
-        position++;
+        *position = ch; // ersetze den Wert der Zeiger
+        position++; // um Attr zu ereichen
         this->setAttr(attr);
         *position = this->attr.getAttr();
 

@@ -18,8 +18,13 @@ int main(){
    
 
  //Teste CgaAttr 
-CgaAttr a= CgaAttr();
-a.setBackground(CgaAttr::BLACK);
+CgaAttr a= CgaAttr(CgaAttr::RED,CgaAttr::WHITE,true);
+//a.setForeground(CgaAttr::BLACK);
+bin(CgaAttr::YELLOW);
+std::cout<<"\n";
+bin(a.getForeground());;
+std::cout<<"\n";
+std::cout<<CgaAttr::YELLOW<<"\n";
 bin(a.getForeground());
 std::cout<<"\n";
 bin(a.getBackground());
