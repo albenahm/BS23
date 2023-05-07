@@ -118,7 +118,7 @@ void PrintStream::print(unsigned int x, int base){
 
 	while(x!=0){
 
-		i++;
+		
 
 		y = x%base;
 
@@ -176,29 +176,25 @@ void PrintStream::print(unsigned int x, int base){
 
 		
 
+		
+
 		}
 
-	char ergebnis[i];
+		i++;
 
-	int k = i;
+	}
 
-	for(int j=0;i!=-1;j++){//Array umkehren, j variable fuer Ergebnis (zaehlt hoch), i Variable fuer zahl (zaehlt runter)
+	i--;
 
-		ergebnis[j]=zahl[i];
+	while(i!=-1){
+
+		channel.write(zahl[i]);
 
 		i--;
 
-		
+	}	
 
-	}
-
-	channel.write(ergebnis,k);
-
-	}
-
-	
-
-}     
+}    
 
 
 
@@ -250,7 +246,7 @@ void PrintStream::print(int x, int base){
 
 	while(x!=0){
 
-		i++;
+		
 
 		y = x%base;
 
@@ -308,25 +304,23 @@ void PrintStream::print(int x, int base){
 
 		
 
+		
+
 		}
 
-	char ergebnis[i];
+		i++;
 
-	int k = i;
+	}
 
-	for(int j=i;i!=-1;j--){//Array umkehren, j variable fuer Ergebnis (zaehlt hoch), i Variable fuer zahl (zaehlt runter)
+	i--;
 
-		ergebnis[j]=zahl[i];
+	while(i!=-1){
+
+		channel.write(zahl[i]);
 
 		i--;
 
-	}
-
-	channel.write(ergebnis,k);
-
-	}
-
-	
+	}	
 
 }     
 
