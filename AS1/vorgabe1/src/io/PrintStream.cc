@@ -20,15 +20,37 @@ PrintStream::PrintStream(OutputChannel& chan): channel(chan){
 
 void PrintStream::print(const char* str){
 
-	int i=0;
+	
 
-	while(str[i] != '\0'){
+	
 
-        	i++;
+	while(*str!=0){
 
-        }
+		channel.write(*str);
 
-        channel.write(str,i);
+		(char*)str++;
+
+	}
+
+	
+
+	
+
+	
+
+	
+
+	//int i=0;
+
+	//while(str[i] != '\0'){
+
+		//channel.write(str);
+
+        	//i++;
+
+        //}
+
+        //channel.write(str,i);
 
 }
 
@@ -50,13 +72,17 @@ void PrintStream::println(const char* str){
 
 	int i= 0;
 
-	while(str[i] != '\0'){      
+	while(str[i] != '\0'){  
+
+		//channel.write(*str[i]);   
 
         	i++;
 
       	}
 
       	channel.write(str,i);
+
+      	
 
     	channel.write('\n');
 
@@ -194,7 +220,7 @@ void PrintStream::print(unsigned int x, int base){
 
 	i--;
 
-	while(i!=-1){//Ausgabe
+	while(i!=-1){
 
 		channel.write(zahl[i]);
 
@@ -318,6 +344,10 @@ void PrintStream::print(int x, int base){
 
 			}
 
+		
+
+		
+
 		}
 
 		i++;
@@ -328,7 +358,7 @@ void PrintStream::print(int x, int base){
 
 	i--;
 
-	while(i!=-1){//Ausgabe
+	while(i!=-1){
 
 		channel.write(zahl[i]);
 
