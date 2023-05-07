@@ -3,25 +3,23 @@
 #include "device/CgaAttr.h"
 #include "io/OutputChannel.h"
 
-using namespace CgaChannel;
-
 /*
 * initiale die Ausgabekanal
 */
-CgaChannel(){
+CgaChannel::CgaChannel(){
     this->setAttr(CgaAttr());
 }
 
 /*
 *initiale die Ausgabekanal mit bestimmten Attributen
 */
-CgaChannel(const CgaAttr& attr){
+CgaChannel::CgaChannel(const CgaAttr& attr){
     this->setAttr(attr);
 
 }
 
 // Die von OutputChannel deklarierte Ausgaberoutine
-int write(const char *data, int size){
+int CgaChannel::write(const char *data, int size){
     for(int i=0;i<=size;i++){
         this->show(data[i]);
     }
@@ -30,10 +28,10 @@ int write(const char *data, int size){
 }
 
 // Bluescreen mit eigener Fehlermeldung
-virtual void blueScreen(const char* error){
+void CgaChannel::blueScreen(const char* error){
 
     CgaAttr fehler;
-    fehler.getBackground(CgaAttr::BLUE);
+    fehler.setBackground(this->attr.BLUE);
     this->attr.setAttr(fehler);
 
     // Zeilen mal Spalten
@@ -48,7 +46,7 @@ virtual void blueScreen(const char* error){
     while (*error)
     {
         show(*error,fehler);
-        (char)error++;
+        (char*)error++;
     }
     
 }

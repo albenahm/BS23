@@ -15,11 +15,11 @@ void bin(unsigned n)
 }
 
 int main(){
- /*  
+   
 
- Teste CgaAttr 
+ //Teste CgaAttr 
 CgaAttr a= CgaAttr();
-a.setBackground(CgaAttr::GRAY);
+a.setBackground(CgaAttr::BLACK);
 bin(a.getForeground());
 std::cout<<"\n";
 bin(a.getBackground());
@@ -27,7 +27,7 @@ std::cout<<"\n";
 bin(a.getBlinkState());
 std::cout<<"\n";
 
-*/
+
 
 /*
 
