@@ -80,8 +80,6 @@ void PrintStream::print(unsigned int x, int base){
 
 		case 10:
 
-			print("0d");
-
 			break;
 
 		case 16:
@@ -153,8 +151,6 @@ void PrintStream::print(int x, int base){
 			break;
 
 		case 10:
-
-			print("0d");
 
 			break;
 
