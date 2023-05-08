@@ -136,23 +136,9 @@ void PrintStream::print(unsigned int x, int base){
 
 	int max =32;
 
-	int k = 0;
-
-	if(x<0){//Minuszeichen
-
-		x = x*(-1);
-
-		k = 1;//zu erkennung um spaeter das Minus auf den Char Array zulegen
-
-		max--;
-
-	}
-
 	char zahl[max];
 
 	int i =0;
-
-	int y;
 
 	char ergebnis [max];
 
@@ -243,8 +229,6 @@ void PrintStream::print(int x, int base){
 	char zahl[max];
 
 	int i =0;
-
-	int y;
 
 	char ergebnis [max];
 
