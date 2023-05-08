@@ -13,7 +13,7 @@ PrintStream::PrintStream(OutputChannel& chan): channel(chan)
 void PrintStream::print(const char* str){
 
 	int i=0;
-	while(str[i] != '\0'){ // Wir betrachten solange Zeichen vom String, solange kein '\0' als einzelnes char kommt
+	while(str[i] != '\0'){// Wir betrachten solange Zeichen vom String, solange kein '\0' als einzelnes char kommt
         	i++;
         }
         channel.write(str,i);
@@ -38,7 +38,7 @@ void PrintStream::println(const char* str){
 //Zeilenvorschub
 void PrintStream::println(){
 
-	print('\n'); // einfache new line Ausgabe
+	print('\n');// einfache new line Ausgabe
 }
 
 //numerische Werte werden zur Basis base ausgegeben
@@ -47,32 +47,84 @@ void PrintStream::print(unsigned int x, int base){
 
 	switch(base){//Vorzeichen fuer 2,10,16
 		case 2:
-			print("0b"); // Markiere eine Binärzahl mit 0b davor
+			print("0b");
 			break;
 		case 10:
 			break;
 		case 16:
-			print("0x"); // Markiere eine Hexzahl mit 0x 
+			print("0x");
 			break;
 		default:
 			{print("Nur 2,10,16 als base erlaubt");
-			return;};//Nicht erlaubt, dieses return verhindert einen Absturz
+			return;};//Nicht erlaubt
 	}
 	int max =32;
-	int i =0;
 	char ergebnis [max];
+	int y= 0;//Rest
+	int i =-1;//zaehler
 	if(x==0){
 		channel.write('0');//Null in Ascii
 		return;
 	}
-	const char character [] = {"0123456789ABCDEF"};
-	while(x!=0){
-		ergebnis[i]=character[ (x%base)];//Rest auf Ergebnis schreiben
-		x = x/base;
+	while( x != 0){
 		i++;
-	}
-	while(i){//Ausgabe
-		channel.write(ergebnis[i-1]);//Rueckwaerts ausgeben, da bisher die Zeichen falsch herum eingetragen wurden
+        	y = x % base;
+        	x = (x-y) /base;
+       		switch(y){ // Hier greifen wir ab, dass ein einstelliges Zeichen über den Dezimalwert von 9 gemäß Hexaschreibweise geschrieben werden kann und wandeln die Zahlen in Zeichen um
+          		case 0: 
+            			ergebnis[i] = '0';
+            			break;
+          		case 1: 
+            			ergebnis[i] = '1';
+            			break;
+          		case 2: 
+            			ergebnis[i] = '2';
+            			break;
+          		case 3: 
+            			ergebnis[i] = '3';
+            			break;
+          		case 4: 
+            			ergebnis[i] = '4'; 
+            			break;
+          		case 5: 
+          	  		ergebnis[i] = '5'; 
+            			break;
+          		case 6: 
+            			ergebnis[i] = '6';
+            			break;
+          		case 7: 
+            			ergebnis[i] = '7';
+            			break;
+          		case 8: 
+            			ergebnis[i] = '8';
+            			break;
+          		case 9: 
+            			ergebnis[i] = '9';
+            			break;
+          		case 10: 
+            			ergebnis[i] = 'A'; // bei 10 schreibe A
+            			break;
+          		case 11: 
+          	  		ergebnis[i] = 'B'; //...
+            			break;
+          		case 12: 
+            			ergebnis[i] = 'C';
+            			break;
+          		case 13: 
+            			ergebnis[i] = 'D';
+            			break;
+          		case 14: 
+            			ergebnis[i] = 'E';
+            			break;
+          		case 15: 
+            			ergebnis[i] = 'F';
+            			break;
+          		default:
+            			break;
+            		}
+        }
+	while(i!=-1){//Ausgabe
+		channel.write(ergebnis[i]);
 		i--;
 	}	
 }
@@ -92,35 +144,89 @@ void PrintStream::print(int x, int base){
 		}
 		switch(base){//Vorzeichen fuer 2,10,16
 		case 2:
-			print("0b"); //Markiere Binärzahlen mit 0b
+			print("0b");
 			break;
 		case 16:
-			print("0x"); //Markiere Hexzahlen mit 0x
+			print("0x");
 			break;
 		default:
 			break;
 		}
 	}
-	int i =0;
-	char ergebnis [max];// Ausgabe Array 
+	char ergebnis [max];
+	int y= 0;//Rest
+	int i =-1;//zaehler
 	if(x==0){
 		channel.write('0');//Null in Ascii
 		return;
 	}
-	const char character [] = {"0123456789ABCDEF"};//
-	while(x!=0){
-		ergebnis[i]=character[(x%base)];//Rest in Array Ergebnis schreiben
-		x = x/base;
+	while( x != 0){
 		i++;
-	}
-	while(i){//Ausgabe
-		channel.write(ergebnis[i-1]);//rueckwaerst ausgeben
+        	y = x % base;
+        	x = (x-y) /base;
+       		switch(y){ // Hier greifen wir ab, dass ein einstelliges Zeichen über den Dezimalwert von 9 gemäß Hexaschreibweise geschrieben werden kann und wandeln die Zahlen in Zeichen um
+          		case 0: 
+            			ergebnis[i] = '0';
+            			break;
+          		case 1: 
+            			ergebnis[i] = '1';
+            			break;
+          		case 2: 
+            			ergebnis[i] = '2';
+            			break;
+          		case 3: 
+            			ergebnis[i] = '3';
+            			break;
+          		case 4: 
+            			ergebnis[i] = '4'; 
+            			break;
+          		case 5: 
+          	  		ergebnis[i] = '5'; 
+            			break;
+          		case 6: 
+            			ergebnis[i] = '6';
+            			break;
+          		case 7: 
+            			ergebnis[i] = '7';
+            			break;
+          		case 8: 
+            			ergebnis[i] = '8';
+
+            			break;
+          		case 9: 
+            			ergebnis[i] = '9';
+            			break;
+          		case 10: 
+            			ergebnis[i] = 'A'; // bei 10 schreibe A
+            			break;
+          		case 11: 
+          	  		ergebnis[i] = 'B'; //...
+            			break;
+          		case 12: 
+            			ergebnis[i] = 'C';
+            			break;
+          		case 13: 
+            			ergebnis[i] = 'D';
+            			break;
+          		case 14: 
+            			ergebnis[i] = 'E';
+            			break;
+          		case 15: 
+            			ergebnis[i] = 'F';
+            			break;
+         		default:
+            			break;
+            		}
+        }
+	while(i!=-1){//Ausgabe
+		channel.write(ergebnis[i]);
 		i--;
 	}	
 }     
-
 //Zeigertypen zur Basis 16 ausgeben
+
 void PrintStream::print(void* p){
 
-  print((unsigned int) p, HEX); // Einfach zum unsigned int casten und dann in unsere eigene Hexumwandlung einpflegen
+  print((unsigned int) p, HEX);// Einfach zum unsigned int casten und dann in unsere eigene Hexumwandlung einpflegen
+
 }
