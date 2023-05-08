@@ -136,101 +136,67 @@ void PrintStream::print(unsigned int x, int base){
 
 	int max =32;
 
-	char zahl[max];//
+	int k = 0;
+
+	if(x<0){//Minuszeichen
+
+		x = x*(-1);
+
+		k = 1;//zu erkennung um spaeter das Minus auf den Char Array zulegen
+
+		max--;
+
+	}
+
+	char zahl[max];
 
 	int i =0;
 
 	int y;
 
+	char ergebnis [max];
+
 	if(x==0){
 
-		channel.write(48);
+		channel.write('0');//Null in Ascii
 
 		return;
 
 	}
 
+	const char character [] = {"0123456789ABCDEF"};
+
+	int length =0;
+
 	while(x!=0){
 
 		
 
-		y = x%base;
+		ergebnis[i]=character[ (x%base)];
 
-		x = (x-y)/base;
-
-		if(y <10){
-
-			zahl[i]=y+48; 
-
-		}
-
-		else{
-
-			switch (y){
-
-				case 10:
-
-					zahl[i]=65;
-
-					break;
-
-				case 11:
-
-					zahl[i]=66;
-
-					break;
-
-				case 12:
-
-					zahl[i]=67;
-
-					break;
-
-				case 13:
-
-					zahl[i]=68;
-
-					break;
-
-				case 14:
-
-					zahl[i]=69;
-
-					break;
-
-				case 15:
-
-					zahl[i]=70;
-
-					break;
-
-				default:print("Fehler");
-
-			}
-
-		
-
-		
-
-		}
+		x = x/base;
 
 		i++;
 
+		
+
 	}
 
-	i--;
+	//if(k==1){
 
-	while(i!=-1){
+	//	zahl[i]='-';//Minus
 
-		channel.write(zahl[i]);
+	//}
+
+	while(i){//Ausgabe
+
+		channel.write(ergebnis[i-1]);
 
 		i--;
 
 	}	
 
-}    
-
-
+}
 
 void PrintStream::print(int x, int base){
 
@@ -268,7 +234,7 @@ void PrintStream::print(int x, int base){
 
 		x = x*(-1);
 
-		k = 1;//zu erkennung um spaeter das Minus auf den Char Array zulegen
+		channel.write('-');
 
 		max--;
 
@@ -276,95 +242,41 @@ void PrintStream::print(int x, int base){
 
 	char zahl[max];
 
-	int i =1;
+	int i =0;
 
 	int y;
 
+	char ergebnis [max];
+
 	if(x==0){
 
-		channel.write(48);//Null in Ascii
+		channel.write('0');//Null in Ascii
 
 		return;
 
 	}
 
+	const char character [] = {"0123456789ABCDEF"};
+
+	int length =0;
+
 	while(x!=0){
 
 		
 
-		y = x%base;
+		ergebnis[i]=character[ (x%base)];
 
-		x = (x-y)/base;
-
-		if(y <10){
-
-			zahl[i]=y+48; 
-
-		}
-
-		else{
-
-			switch (y){
-
-				case 10:
-
-					zahl[i]=65;//A
-
-					break;
-
-				case 11:
-
-					zahl[i]=66;
-
-					break;
-
-				case 12:
-
-					zahl[i]=67;
-
-					break;
-
-				case 13:
-
-					zahl[i]=68;
-
-					break;
-
-				case 14:
-
-					zahl[i]=69;
-
-					break;
-
-				case 15:
-
-					zahl[i]=70;
-
-					break;
-
-				default:print("Fehler");
-
-			}
-
-		
-
-		
-
-		}
+		x = x/base;
 
 		i++;
 
-	}
-
-	if(k==1){
-
-		zahl[i]=45;//Minus
+		
 
 	}
 
 	while(i){//Ausgabe
 
-		channel.write(zahl[i]);
+		channel.write(ergebnis[i-1]);
 
 		i--;
 
