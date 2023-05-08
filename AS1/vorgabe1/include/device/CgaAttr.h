@@ -31,20 +31,20 @@ public:
 	enum Color {
 		BLACK,
 		BLUE,
-		BROWN,
-		CYAN,
-		GRAY,
 		GREEN,
-		LIGHT_BLUE,
-		LIGHT_CYAN,
-		LIGHT_GRAY,
-		LIGHT_GREEN,
-		LIGHT_MAGENTA,
-		LIGHT_RED,
-		MAGENTA,
+		CYAN,
 		RED,
-		WHITE,
-		YELLOW
+		MAGENTA,
+		BROWN,
+		LIGHT_GRAY,
+		GRAY,
+		LIGHT_BLUE,
+		LIGHT_GREEN,
+		LIGHT_CYAN,
+		LIGHT_RED,
+		LIGHT_MAGENTA,
+		YELLOW,
+		WHITE
 	};
 
 
@@ -71,9 +71,11 @@ public:
 	void setBackground(Color col)
 	{
 		int checkColor = (int) col;
-		if(checkColor<8){
+		if(checkColor<=8){
 			this->attrMerk=this->attrMerk & HintergrundMask;// losche alte Farbe mit und
 			this->attrMerk=this->attrMerk | (col<<4); // setze die neue Farbe mit oder und schiebe die Farbe 4 bits, um Hintergrund bits zu erreichen
+		}else{
+			setBackground(Color::BLACK);//standard
 		}
 	}
 
