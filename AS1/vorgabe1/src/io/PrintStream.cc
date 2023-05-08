@@ -20,31 +20,9 @@ PrintStream::PrintStream(OutputChannel& chan): channel(chan){
 
 void PrintStream::print(const char* str){
 
-	
-
-	
-
-	//while(*str!=0){
-
-	//	channel.write(*str);
-
-	//	(char*)str++;
-
-	//}
-
-	//channel.write('\0');
-
-	
-
-	
-
-	
-
 	int i=0;
 
 	while(str[i] != '\0'){
-
-		//channel.write(str);
 
         	i++;
 
@@ -56,15 +34,9 @@ void PrintStream::print(const char* str){
 
 void PrintStream::print(char ch){
 
-
-
    channel.write(ch);
 
-
-
 }
-
-
 
 // Ausgabe String mit Zeilenvorschub
 
@@ -72,9 +44,7 @@ void PrintStream::println(const char* str){
 
 	int i= 0;
 
-	while(str[i] != '\0'){  
-
-		//channel.write(*str[i]);   
+	while(str[i] != '\0'){   
 
         	i++;
 
@@ -82,13 +52,9 @@ void PrintStream::println(const char* str){
 
       	channel.write(str,i);
 
-      	
-
     	channel.write('\n');
 
 }
-
-
 
 //Zeilenvorschub
 
@@ -98,13 +64,9 @@ void PrintStream::println(){
 
 }
 
-
-
 //numerische Werte werden zur Basis base ausgegeben
 
 // Basen 2, 10 und 16
-
-
 
 void PrintStream::print(unsigned int x, int base){
 
@@ -130,13 +92,13 @@ void PrintStream::print(unsigned int x, int base){
 
 		default:
 
-			print("Nur 2,10,16 als base erlaubt");//Nicht erlaubt
+			{print("Nur 2,10,16 als base erlaubt");
+
+			return;};//Nicht erlaubt
 
 	}
 
 	int max =32;
-
-	char zahl[max];
 
 	int i =0;
 
@@ -152,8 +114,6 @@ void PrintStream::print(unsigned int x, int base){
 
 	const char character [] = {"0123456789ABCDEF"};
 
-	int length =0;
-
 	while(x!=0){
 
 		
@@ -168,12 +128,6 @@ void PrintStream::print(unsigned int x, int base){
 
 	}
 
-	//if(k==1){
-
-	//	zahl[i]='-';//Minus
-
-	//}
-
 	while(i){//Ausgabe
 
 		channel.write(ergebnis[i-1]);
@@ -186,11 +140,15 @@ void PrintStream::print(unsigned int x, int base){
 
 void PrintStream::print(int x, int base){
 
+	
+
 	switch(base){//Vorzeichen fuer 2,10,16
 
 		case 2:
 
 			print("0b");
+
+			
 
 			break;
 
@@ -208,13 +166,13 @@ void PrintStream::print(int x, int base){
 
 		default:
 
-			print("Nur 2,10,16 als base erlaubt");//Nicht erlaubt
+			{print("Nur 2,10,16 als base erlaubt");
+
+			return;};//Nicht erlaubt
 
 	}
 
 	int max =32;
-
-	int k = 0;
 
 	if(x<0){//Minuszeichen
 
@@ -225,8 +183,6 @@ void PrintStream::print(int x, int base){
 		max--;
 
 	}
-
-	char zahl[max];
 
 	int i =0;
 
@@ -241,8 +197,6 @@ void PrintStream::print(int x, int base){
 	}
 
 	const char character [] = {"0123456789ABCDEF"};
-
-	int length =0;
 
 	while(x!=0){
 
@@ -272,10 +226,6 @@ void PrintStream::print(int x, int base){
 
 void PrintStream::print(void* p){
 
-   
-
   print((unsigned int) p, HEX);
-
-
 
 }
