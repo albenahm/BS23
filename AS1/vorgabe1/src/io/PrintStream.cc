@@ -24,33 +24,33 @@ void PrintStream::print(const char* str){
 
 	
 
-	while(*str!=0){
+	//while(*str!=0){
 
-		channel.write(*str);
+	//	channel.write(*str);
 
-		(char*)str++;
+	//	(char*)str++;
 
-	}
+	//}
 
-	
-
-	
+	//channel.write('\0');
 
 	
 
 	
 
-	//int i=0;
+	
 
-	//while(str[i] != '\0'){
+	int i=0;
+
+	while(str[i] != '\0'){
 
 		//channel.write(str);
 
-        	//i++;
+        	i++;
 
-        //}
+        }
 
-        //channel.write(str,i);
+        channel.write(str,i);
 
 }
 
@@ -262,25 +262,27 @@ void PrintStream::print(int x, int base){
 
 	int max =32;
 
+	int k = 0;
+
 	if(x<0){//Minuszeichen
 
 		x = x*(-1);
 
-		print('-');
+		k = 1;//zu erkennung um spaeter das Minus auf den Char Array zulegen
 
 		max--;
 
 	}
 
-	char zahl[max];//
+	char zahl[max];
 
-	int i =0;
+	int i =1;
 
 	int y;
 
 	if(x==0){
 
-		channel.write(48);
+		channel.write(48);//Null in Ascii
 
 		return;
 
@@ -306,7 +308,7 @@ void PrintStream::print(int x, int base){
 
 				case 10:
 
-					zahl[i]=65;
+					zahl[i]=65;//A
 
 					break;
 
@@ -354,11 +356,13 @@ void PrintStream::print(int x, int base){
 
 	}
 
-	
+	if(k==1){
 
-	i--;
+		zahl[i]=45;//Minus
 
-	while(i!=-1){
+	}
+
+	while(i){//Ausgabe
 
 		channel.write(zahl[i]);
 
