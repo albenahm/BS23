@@ -1,9 +1,9 @@
 #ifndef CgaScreen_h
 #define CgaScreen_h
 
-#include "device/CgaAttr.h"
-#include "device/CgaChar.h"
-#include "io/IOPort.h"
+#include "/home/ahmad/Desktop/BS/BS23/AS2/vorgabe2/include/device/CgaAttr.h"
+#include "/home/ahmad/Desktop/BS/BS23/AS2/vorgabe2/include/device/CgaChar.h"
+#include "/home/ahmad/Desktop/BS/BS23/AS2/vorgabe2/include/io/IOPort.h"
 
 /*
  * CgaScreen:	Diese Klasse ist der Softwareprototyp fuer den

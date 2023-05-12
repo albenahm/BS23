@@ -1,50 +1,41 @@
-#include "/home/ahmad/Desktop/BS/BS23/AS1/vorgabe1/include/device/CgaAttr.h"
-#include "/home/ahmad/Desktop/BS/BS23/AS1/vorgabe1/include/device/CgaChar.h"
+#include "/home/ahmad/Desktop/BS/BS23/AS2/vorgabe2/include/device/CgaChannel.h"
+#include "/home/ahmad/Desktop/BS/BS23/AS2/vorgabe2/include/io/PrintStream.h"
 
-#include<iostream>
-
-
-void bin(unsigned n)
+PrintStream::PrintStream(OutputChannel* chan): channel(*chan)
 {
-    /* step 1 */
-    if (n > 1)
-        bin(n / 2);
- 
-    /* step 2 */
-    std::cout << n % 2;
 }
 
+PrintStream::PrintStream(OutputChannel& chan): channel(chan)
+{
+}
+
+class Hello{
+
+Hello(const char * name): name(name) {
+ out.print( name ) ;
+ out.print("ctor;");
+ }
+
+~ Hello() {
+ out.print(name);
+ out.print("dtor;") ;
+ }
+
+ void body ( ) {
+ out.print( name );
+ out.print("body ;");
+ }
+
+ const char ∗ name ;
+ } ;
+
 int main(){
-   
-
- //Teste CgaAttr 
-CgaAttr a= CgaAttr(CgaAttr::RED,CgaAttr::WHITE,true);
-//a.setForeground(CgaAttr::BLACK);
-bin(CgaAttr::YELLOW);
-std::cout<<"\n";
-bin(a.getForeground());;
-std::cout<<"\n";
-std::cout<<CgaAttr::YELLOW<<"\n";
-bin(a.getForeground());
-std::cout<<"\n";
-bin(a.getBackground());
-std::cout<<"\n";
-bin(a.getBlinkState());
-std::cout<<"\n";
-
-
-
-/*
-
-Teste CgaChar
-
-CgaChar a = CgaChar();
-a.setChar('s');
-std::cout<< a.getChar();
-std::cout<<"\n";
-bin(a.getAttr().getBackground());
-
-*/
+   out.print("main1;");
+Hello anton("Anton");
+Hello berta("Berta");
+out.print("main2;");
+anton.body();
+out.print("main3;");
     return 0;
 }
 
