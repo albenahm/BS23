@@ -1,41 +1,32 @@
-#include "/home/ahmad/Desktop/BS/BS23/AS2/vorgabe2/include/device/CgaChannel.h"
-#include "/home/ahmad/Desktop/BS/BS23/AS2/vorgabe2/include/io/PrintStream.h"
+#include <iostream>
 
-PrintStream::PrintStream(OutputChannel* chan): channel(*chan)
-{
-}
 
-PrintStream::PrintStream(OutputChannel& chan): channel(chan)
-{
-}
 
 class Hello{
+public:
+    Hello(const char * name):name(name){
+        std::cout<< name <<"\n";
+        std::cout<< "ctor;" <<"\n";
+    }
+    ~Hello (){
+        std::cout<< name <<"\n";
+        std::cout<< "dtor;" <<"\n";
+    }
 
-Hello(const char * name): name(name) {
- out.print( name ) ;
- out.print("ctor;");
- }
+    void body(){
+        std::cout<< name <<"\n";
+        std::cout<< "body ;" <<"\n";
+    }
 
-~ Hello() {
- out.print(name);
- out.print("dtor;") ;
- }
-
- void body ( ) {
- out.print( name );
- out.print("body ;");
- }
-
- const char ∗ name ;
+const char * name ;
  } ;
 
 int main(){
-   out.print("main1;");
-Hello anton("Anton");
-Hello berta("Berta");
-out.print("main2;");
-anton.body();
-out.print("main3;");
+    std::cout<<"main1;"<<"\n";
+    Hello anton("Anton");
+    Hello betra("Berta");
+    anton.body();
+    std::cout<<"main3;"<<"\n";
     return 0;
 }
 
