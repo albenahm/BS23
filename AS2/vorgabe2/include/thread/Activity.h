@@ -90,7 +90,7 @@ public:
 	// Ausf�hrungszustand abfragen.
 	bool isBlocked()
 	{
-		return this->zustand == READY;
+		return this->zustand == BLOCKED;
 	}
 
 	bool isReady()
