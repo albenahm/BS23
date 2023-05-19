@@ -43,8 +43,12 @@ SYSTEM_CC = \
 	device/CgaScreen.cc \
 	io/PrintStream.cc \
 	lib/Queue.cc\
+	thread/Activity.cc\
+	thread/ActivityScheduler.cc\
+	thread/Scheduler.cc\
 	thread/Coroutine.cc\
-	mainCo.cc
+	mainAct.cc
+	#mainCo.cc
 
 
 ##############################################################################
