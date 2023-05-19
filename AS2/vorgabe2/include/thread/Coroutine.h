@@ -102,7 +102,7 @@ private:
 		unsigned esi;	//definiere Quelle (eng: source) für Stringoperationen
 		unsigned ebx;	//allgemeine register
 		void* ebp;		//Basispointer
-		void (*coroutineStartup) (Coroutine*); // Anfang der Corotine mit Funktion Pointer(* um startup zu erreichen) und Parameter von Coriutine
+		void (*coroutine) (Coroutine*); // Anfang der Corotine mit Funktion Pointer(* um startup zu erreichen) und Parameter von Coriutine
 		void* adress_ret;	// return adresse
 		Coroutine* coroutine_obj; //Eingabe fuer Anfang
 

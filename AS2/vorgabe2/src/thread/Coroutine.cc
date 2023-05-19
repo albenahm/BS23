@@ -10,9 +10,9 @@
     * Beachte, das "startup" als "static deklariert ist
     * und deshalb keinen impliziten "this"-Zeiger uebergeben bekommt.
     */
-void Coroutine::startup(Coroutine *coroutine_obj){
-    coroutine_obj->body(); // wird die Body fuer Coroutine erstellt
-    coroutine_obj->exit();  // wird die Coroutine beendet
+void Coroutine::startup(Coroutine* obj){
+    obj->body(); // wird die Body fuer Coroutine erstellt
+    obj->exit();  // wird die Coroutine beendet
 }
 
 /* Aufsetzen einer neuen Coroutine.
@@ -23,13 +23,13 @@ void Coroutine::startup(Coroutine *coroutine_obj){
 void Coroutine::setup(void* tos){
     if(tos==0){return;}
     else if(tos!=0){
-        CoroutineStack *stack = (CoroutineStack*) tos; // 48 bztes 384 bits
+        CoroutineStack *stack = ((CoroutineStack*) tos); // 48 bztes 384 bits
         stack->edi=0;
         stack->esi=0;
         stack->ebx=0;
         stack->ebp=0;
 
-        stack->coroutineStartup = startup;
+        stack->coroutine = &startup;
         stack->adress_ret= 0;
         stack->coroutine_obj=this;
         this->sp=stack;

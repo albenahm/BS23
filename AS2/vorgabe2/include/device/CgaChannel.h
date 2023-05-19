@@ -1,8 +1,8 @@
 #ifndef CgaChannel_h
 #define CgaChannel_h
 
-#include "/home/ahmad/Desktop/BS/BS23/AS2/vorgabe2/include/io/OutputChannel.h"
-#include "/home/ahmad/Desktop/BS/BS23/AS2/vorgabe2/include/device/CgaScreen.h"
+#include "io/OutputChannel.h"
+#include "device/CgaScreen.h"
 
 /*
  * CgaChannel:	Diese Klasse implementiert einen Ausgabekanal
