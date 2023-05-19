@@ -31,6 +31,7 @@ STARTUP_S = \
 
 MACHINE_S = \
 	io/ports.asm \
+	thread/switchContext.asm
 
 SYSTEM_C = \
 	lib/tools.c
