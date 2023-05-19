@@ -8,6 +8,6 @@ void remove(Schedulable* sched){
 };
 //Aktiviert das vorderste Element
 void reschedule(){
-    activate(readyList.dequeue());//kann man das so verwenden . dequeue gibt einen return wert
+    scheduler.activate(readyList.dequeue());
 
 };
