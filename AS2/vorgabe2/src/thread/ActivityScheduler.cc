@@ -58,7 +58,6 @@ Activity* actuellActivity = (Activity*) active();
 Activity* nextActivity = (Activity*) to;
 
 bool nextActivityNotReady = nextActivity->isBlocked() || nextActivity->isZombie()||nextActivity==0 || nextActivity==actuellActivity;
-if(nextActivity->isBlocked() || nextActivity->isZombie()){return;}
 if(! nextActivityNotReady){
 	actuellActivity->changeTo(Activity::READY);
 	nextActivity->changeTo(Activity::RUNNING);
@@ -78,9 +77,7 @@ if(! nextActivityNotReady){
 			dispatch(nextActivity);// Zeige auf denn aktelle laufenden Prozess
 		}
 
-	}else{
-
-		
 	}
 }
+if(nextActivity->isBlocked() || nextActivity->isZombie()){return;}
 }
