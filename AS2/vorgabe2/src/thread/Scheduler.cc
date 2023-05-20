@@ -1,13 +1,15 @@
+#include "thread/Scheduler.h"
+
 //Einfuegen in Ready Liste
-void schedule(Schedulable* sched){
-    readyList.enqueue(sched);//Objekt schon erstellt in header(void Methode)
+void Scheduler::schedule(Schedulable* sched){
+    readylist.enqueue(sched);//Objekt schon erstellt in header(void Methode)
 };
 //Entfernen eines Elements aus der Ready Liste
-void remove(Schedulable* sched){
-    readyList.remove(sched);
+void Scheduler::remove(Schedulable* sched){
+    readylist.remove(sched);
 };
 //Aktiviert das vorderste Element
-void reschedule(){
-    scheduler.activate(readyList.dequeue());
+void Scheduler::reschedule(){
+    activate((Schedulable*) readylist.dequeue());
 
 };

@@ -1,16 +1,15 @@
-#include "thread/Scheduler.cc" // .cc ?
+//#include "thread/Scheduler.cc" // .cc ?
 #include "thread/ActivityScheduler.h"
 #include "thread/Dispatcher.h"
 
-ActivityScheduler::ActivityScheduler(){}
 
 /* Suspendieren des aktiven Prozesses
 	 * Der korrekte Ausfuehrungszustand ist zu setzen
 	 * und danach der naechste lauffaehige Prozess zu aktivieren.
 	 */
 void ActivityScheduler::suspend(){
-    (scheduler.active())-> changeTo(Activity::BLOCKED); // derzeitiger Prozess wird geblockt (suspendiert)
-	scheduler.reschedule();
+    ((Activity *)active())-> changeTo(Activity::BLOCKED); // derzeitiger Prozess wird geblockt (suspendiert)
+	this->reschedule();
     //scheduler.dispatch(scheduler.reschedule()); // Wechsel den Prozess
 	//(scheduler.active())-> changeTo(Activity::RUNNING) // Aktiviere Prozess
 };
@@ -18,10 +17,11 @@ void ActivityScheduler::suspend(){
 /* Explizites Terminieren des angegebenen Prozesses. Der Prozesszustand ist korrekt zu setzen und der Prozess aus der Ready-Liste des Schedulers
  * zu entfernen. Falls der aktive Prozess zerstoert wird, ist dem naechsten lauffaehigen Prozess die CPU zuzuteilen.
  */
-void ActivityScheduler::kill(Activity*){
-	(scheduler.active())-> changeTo(Activity::ZOMBIE); // derzeitiger Prozess wird zerstört (Zombie)
-	scheduler.remove(scheduler.active()); // Löschen des Prozesses aus der Ready-Liste
-	scheduler.reschedule();
+void ActivityScheduler::kill(Activity*  actActivity){
+	actActivity-> changeTo(Activity::ZOMBIE); // derzeitiger Prozess wird zerstört (Zombie)
+	(actActivity==(Activity *)active())?this->reschedule(): // falls die act laeyt, dann fuehre die naechste aus der Liste aus. 
+	remove(actActivity); // Löschen des Prozesses aus der Ready-Liste
+	//scheduler.reschedule();
    // scheduler.dispatch(scheduler.reschedule()); // Wechsel den Prozess
 	//(scheduler.active())-> changeTo(Activity::RUNNING) // Aktiviere Prozess
 };
@@ -34,8 +34,9 @@ void ActivityScheduler::kill(Activity*){
 	 * und Wechsel zum naechsten lauffaehigen Prozess
 	 */
 void ActivityScheduler::exit(){
-	(scheduler.active())-> changeTo(Activity::READY); // derzeitiger Prozess wird zerstört (Zombie)
-	scheduler.reschedule();
+	Activity*  actActivity= (Activity*)this->active();// bekomme die aktuelle Aktivitaet
+	kill(actActivity); // terminiere
+	reschedule(); // hole die neue
    // scheduler.dispatch(scheduler.reschedule()); // Wechsel den Prozess
 	//(scheduler.active())-> changeTo(Activity::RUNNING) // Aktiviere Prozess
 }
@@ -44,11 +45,42 @@ void ActivityScheduler::exit(){
  * zu setzen. Danach ist "to" mittels dispatch die Kontrolle zu �bergeben.
  */
 void ActivityScheduler::activate(Schedulable* to){
-
+/*
 	if(((scheduler.active()).isBlocked || (scheduler.active()).isZombie)== false){ // Falls Prozess nicht im BLOCKED oder ZOMBIE- Zustand ist
 		scheduler.schedule(scheduler.active()); //Setzen auf die Ready Liste im scheduler.cc
 	}
     
 	this->dispatch(to); // Wechsel den Prozess
 	to-> changeTo(Activity::RUNNING) // Aktiviere Prozess
+	*/
+
+Activity* actuellActivity = (Activity*) active();
+Activity* nextActivity = (Activity*) to;
+
+bool nextActivityNotReady = nextActivity->isBlocked() || nextActivity->isZombie()||nextActivity==0 || nextActivity==actuellActivity;
+if(nextActivity->isBlocked() || nextActivity->isZombie()){return;}
+if(! nextActivityNotReady){
+	actuellActivity->changeTo(Activity::READY);
+	nextActivity->changeTo(Activity::RUNNING);
+	scheduler.schedule(actuellActivity); // add zu ready liste
+	dispatch(nextActivity);// Zeige auf denn aktelle laufenden Prozess
+}else{
+	// wenn der laufende Prozess nicht laeuft, dann suche nach dem naechsten
+	if(!(actuellActivity->isRunning())){ 
+
+		while (nextActivity==0)
+		{
+			nextActivity =  (Activity*) readylist.dequeue();
+		}
+		if (nextActivity!=0)
+		{
+			nextActivity->changeTo(Activity::RUNNING);
+			dispatch(nextActivity);// Zeige auf denn aktelle laufenden Prozess
+		}
+
+	}else{
+
+		
+	}
+}
 }
