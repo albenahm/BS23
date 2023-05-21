@@ -38,7 +38,7 @@ void PrintStream::println(const char* str){
 //Zeilenvorschub
 void PrintStream::println(){
 
-	print('\n');// einfache new line Ausgabe
+	this->channel.write('\n');// einfache new line Ausgabe
 }
 
 //numerische Werte werden zur Basis base ausgegeben

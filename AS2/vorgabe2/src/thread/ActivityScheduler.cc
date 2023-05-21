@@ -57,10 +57,11 @@ void ActivityScheduler::activate(Schedulable* to){
 Activity* actuellActivity = (Activity*) active();
 Activity* nextActivity = (Activity*) to;
 
-bool nextActivityNotReady = (nextActivity->isBlocked() || nextActivity->isZombie())&& nextActivity !=0;
-if(nextActivityNotReady){return;}// der naechste Prozess ist in der Lage auszufuehren, wenn nicht stoppt
+
 
 if(nextActivity !=0 ){
+bool nextActivityNotReady = (nextActivity->isBlocked() || nextActivity->isZombie());
+if(nextActivityNotReady){return;}// der naechste Prozess ist in der Lage auszufuehren, wenn nicht stoppt
 	if((nextActivity!=actuellActivity)){
 	actuellActivity->changeTo(Activity::READY);
 	nextActivity->changeTo(Activity::RUNNING);
@@ -71,10 +72,10 @@ if(nextActivity !=0 ){
 	// wenn der laufende Prozess nicht laeuft, dann suche nach dem naechsten
 	if(!(actuellActivity->isRunning())){ 
 
-		while (nextActivity==0)
-		{
-			nextActivity =  (Activity*) readylist.dequeue();
-		}
+		
+		
+		nextActivity =  (Activity*) readylist.dequeue();
+		
 		if (nextActivity!=0)
 		{
 			nextActivity->changeTo(Activity::RUNNING);

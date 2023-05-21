@@ -31,7 +31,7 @@ void CgaScreen::clear(){
     CgaAttr standard= CgaAttr();
     char leer =' ';
     // 2000 da wir 25 Zeile und 80 Spalte haben und 25 * 80 = 2000
-    for(int i= 0; i<2000;i++){
+    for(int i= 0; i<(ROWS*COLUMNS);i++){
         this->screen[i].setChar(leer);
         this->screen[i].setAttr(standard);
     }
@@ -42,23 +42,22 @@ void CgaScreen::clear(){
 
 /*Hier wird der Bildschirm um eine Zeile verschoben*/
 void CgaScreen::scroll(){
-unsigned int bildschirmGroesse = COLUMNS*ROWS; // 2000 Zellen
+unsigned int bildschirmGroesse = COLUMNS*(ROWS-1); // 2000 Zellen
 unsigned int bildschirmBytes = bildschirmGroesse * 2; // da jede Zelle aus 2 Bytes besteht.
-unsigned int neuBildschirm    = bildschirmBytes -160; // da eine Zeile aus 160 Bytes (80 Attr)(80 Char) besteht.
+unsigned int neuBildschirm    = bildschirmBytes -80; // da eine Zeile aus 160 Bytes (80 Attr)(80 Char) besteht.
 
-for(unsigned int i = 0; i<neuBildschirm;i++ ){
+for(unsigned int i = 0; i<bildschirmGroesse;i++ ){
 
     this->screen[i]= this->screen[i+COLUMNS]; // schiebe alle Char eine Zeile runter
 }
 // alle Bytes der Zeile (Differenz zwischen bildschirmGroesse und neuBildschirm) auf Standard setzen
-for(unsigned int i=neuBildschirm;i<bildschirmGroesse;i++){
+for(unsigned int i=bildschirmGroesse;i<bildschirmGroesse+COLUMNS;i++){
 
-    if(i%2 !=0){
 
             this->screen[i].setAttr(this->attr);
-    }else{
+    
             this->screen[i].setChar((char) ' ');
-    }
+    
 }
 }
 
@@ -102,12 +101,22 @@ void CgaScreen::show(char ch, const CgaAttr& attr){
     position = position+ Offset_0; // addiere zum Startpunkt
     short chDecimal=(short) ch; 
 
-    if(ch == '\n' && row <= 24){
-        setCursor(0,row+1); // gehe eine Zeile runter
-        getCursor(column,row); // aktualisiere die Werte von Cursor
+    if(ch == '\n'){
+    if(row<24){
+    	        setCursor(0,row+1); // gehe eine Zeile runter
+        	getCursor(column,row); // aktualisiere die Werte von Cursor
+    }else if(row==24){
+    		scroll();
+    		setCursor(0,row);
+    		
+    }
+
     }else if (ch =='\r')
     {
         setCursor(0,row); // gehe zum Anfang der Zeile
+        getCursor(column,row); // aktualisiere die Werte von Cursor 
+    }else if(ch =='\t'){
+          setCursor(column+4,row); // add 4space
         getCursor(column,row); // aktualisiere die Werte von Cursor 
     }
     // hier kann man die Range von ASCII kontrollieren
@@ -124,11 +133,11 @@ void CgaScreen::show(char ch, const CgaAttr& attr){
 
         }else{
 
-            if(row < 25){
+            if(row < 24){
                 setCursor(0,row+1); // gehe Zeile runter
-            }else{
+            }else if(row==24){
                 scroll();
-                setCursor(0,25);
+                setCursor(0,24);
             }
         }
 

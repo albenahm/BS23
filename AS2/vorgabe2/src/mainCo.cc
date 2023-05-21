@@ -30,7 +30,7 @@ public:
 
 	void body()
 	{
-		for(int i=0; i<10; i++) {
+		for(int i=0; i<100; i++) {
 			cout.print(name);
 			cout.print(" ");
 			cout.print(i);
@@ -66,8 +66,7 @@ unsigned stack1[1024];
 
 extern "C" int main()
 {
-	out.println();
-    out.print("Test mit falscher Basis: out.print(133,7): ");
+
 	
 	Hello anton("Anton", out); // anton benutzt den Stack von main
 	
