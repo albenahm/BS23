@@ -20,7 +20,7 @@ Activity:: Activity(){
 * erfolgt von der abgeleiteten Klasse mittels "wakeup".
 */
 Activity:: Activity(void* tos):Coroutine(tos){
-    this->zustand = BLOCKED;
+    this->zustand = READY;
     this->activitat=0;
 }
 
@@ -37,9 +37,10 @@ Activity:: ~Activity(){
 	/* Veranlasst den Scheduler, diese Aktivitaet aufzuwecken.
 	 */
 	void Activity::wakeup(){
+	if(this->isBlocked()){
         this->zustand=READY;
         scheduler.schedule(this);// in ready list gebracht
-    }
+    }}
 
 	/* Diese Aktivitaet gibt die CPU vorruebergehend ab.
 	 */
@@ -51,7 +52,10 @@ Activity:: ~Activity(){
 	 * auf die Beendigung wartende Aktivit�t geweckt werden.
 	 */
 	void Activity::exit(){
-        (this->activitat != 0)?this->activitat->wakeup(): // wenn Aktinitat nicht leer dann aufwachen
+        if(this->activitat != 0){
+        	this->activitat->wakeup();
+        	this->activitat=0;
+        } // wenn Aktinitat nicht leer dann aufwachen
         scheduler.exit(); // schliesen 
         
     }
@@ -63,8 +67,8 @@ Activity:: ~Activity(){
 	void Activity::join(){
         Activity* aktuellProzess=(Activity*) scheduler.active();// acktive Prozess in einer lokal Variable 
         //Es existiert eine Aktivität und nicht derselbe laufende Prozess.
-        if(!(this->isZombie())&& this !=aktuellProzess){
-            this->activitat=(Activity*) scheduler.active();
+        this->activitat=(Activity*) scheduler.active();
+        while(!(this->isZombie())&& this !=aktuellProzess){
             scheduler.suspend();// Unterbrechung der laufenden Prozess
         }
         

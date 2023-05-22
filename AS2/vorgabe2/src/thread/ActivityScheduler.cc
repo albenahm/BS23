@@ -19,8 +19,8 @@ void ActivityScheduler::suspend(){
  */
 void ActivityScheduler::kill(Activity*  actActivity){
 	actActivity-> changeTo(Activity::ZOMBIE); // derzeitiger Prozess wird zerstört (Zombie)
-	(actActivity==(Activity *)active())?this->reschedule(): // falls die act laeyt, dann fuehre die naechste aus der Liste aus. 
-	remove(actActivity); // Löschen des Prozesses aus der Ready-Liste
+	(actActivity==(Activity *)active())?this->reschedule():remove(actActivity); // falls die act laeyt, dann fuehre die naechste aus der Liste aus.
+	 // Löschen des Prozesses aus der Ready-Liste
 	//scheduler.reschedule();
    // scheduler.dispatch(scheduler.reschedule()); // Wechsel den Prozess
 	//(scheduler.active())-> changeTo(Activity::RUNNING) // Aktiviere Prozess
@@ -35,7 +35,8 @@ void ActivityScheduler::kill(Activity*  actActivity){
 	 */
 void ActivityScheduler::exit(){
 	Activity*  actActivity= (Activity*)this->active();// bekomme die aktuelle Aktivitaet
-	kill(actActivity); // terminiere
+	actActivity-> changeTo(Activity::ZOMBIE);
+	//kill(actActivity); // terminiere
 	reschedule(); // hole die neue
    // scheduler.dispatch(scheduler.reschedule()); // Wechsel den Prozess
 	//(scheduler.active())-> changeTo(Activity::RUNNING) // Aktiviere Prozess
