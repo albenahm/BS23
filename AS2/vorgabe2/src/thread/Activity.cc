@@ -52,7 +52,7 @@ Activity:: Activity(void* tos):Coroutine(tos){
 
 Activity:: ~Activity(){
 
-    scheduler.kill(this); // terminierung
+    scheduler.kill(this); // Terminierung
 
 }
 
@@ -64,7 +64,7 @@ Activity:: ~Activity(){
 
 	void Activity::sleep(){
 
-        scheduler.suspend();// Unterbrechung der laufenden Prozess
+        scheduler.suspend();// Unterbrechung des laufenden Prozesses
 
     }
 
@@ -80,7 +80,7 @@ Activity:: ~Activity(){
 
         	this->zustand=READY;
 
-        	scheduler.schedule(this);// in ready list gebracht
+        	scheduler.schedule(this);// in readylist gebracht
 
     	}
 
@@ -114,9 +114,9 @@ Activity:: ~Activity(){
 
         	this->activitat=0;
 
-        } // wenn Aktinitat nicht leer dann aufwachen
+        } // wenn Aktivitaet nicht leer, dann aufwecken
 
-        scheduler.exit(); // schliesen 
+        scheduler.exit(); // schließen 
 
         
 
@@ -134,15 +134,15 @@ Activity:: ~Activity(){
 
 	void Activity::join(){
 
-        Activity* aktuellProzess=(Activity*) scheduler.active();// acktive Prozess in einer lokal Variable 
+        Activity* aktuellProzess=(Activity*) scheduler.active();// aktive Prozess in einer lokalen Variabel 
 
-        //Es existiert eine Aktivität und nicht derselbe laufende Prozess.
+        //Es existiert eine Aktivitaet und nicht derselbe laufende Prozess.
 
         this->activitat=(Activity*) scheduler.active();
 
         while(!(this->isZombie())&& this !=aktuellProzess){
 
-            scheduler.suspend();// Unterbrechung der laufenden Prozess
+            scheduler.suspend();// Unterbrechung des laufenden Prozesses
 
         }
 
