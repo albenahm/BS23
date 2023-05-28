@@ -11,8 +11,8 @@
     * und deshalb keinen impliziten "this"-Zeiger uebergeben bekommt.
     */
 void Coroutine::startup(Coroutine* obj){
-    obj->body(); // wird die Body fuer Coroutine erstellt
-    obj->exit();  // wird die Coroutine beendet
+    obj->body(); // hier wird der Body fuer die Coroutine erstellt
+    obj->exit();  // hier wird die Coroutine beendet
 }
 
 /* Aufsetzen einer neuen Coroutine.
