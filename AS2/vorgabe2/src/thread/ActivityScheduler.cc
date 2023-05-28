@@ -38,7 +38,7 @@ void ActivityScheduler::kill(Activity*  actActivity){
 
 	actActivity-> changeTo(Activity::ZOMBIE); // derzeitiger Prozess wird zerstört (Zombie)
 
-	(actActivity==(Activity *)active())?this->reschedule():remove(actActivity); // falls die act laeyt, dann fuehre die naechste aus der Liste aus.
+	(actActivity==(Activity *)active())?this->reschedule():remove(actActivity); // falls actActivity laedt, dann fuehre die naechste aus der Liste aus.
 
 };
 
@@ -81,7 +81,7 @@ Activity* nextActivity = (Activity*) to;
 
 //hier prüfe,ob die actuelle Aktivitä aktiv ist
 if(actuellActivity -> isRunning()&&(!(actuellActivity -> isBlocked())||(actuellActivity -> isZombie()))){
-	//wenn ja setze aktuelle Aktivitaet auf bereit und in Queue(bereitliste)
+	//wenn ja setze aktuelle Aktivitaet auf bereit und in Queue(ReadyList)
 	actuellActivity->changeTo(Activity::READY);
 	scheduler.schedule(actuellActivity);
 
@@ -89,11 +89,11 @@ if(actuellActivity -> isRunning()&&(!(actuellActivity -> isBlocked())||(actuellA
 
 //In diesem Punkt haben wir die laufende Aktivität deaktiviert.
 
-//nun Suche nach die nächste Aktivität im Fall die akutelle nicht aktiv
+//nun Suche nach der nächsten Aktivität im Fall, dass die akutelle nicht aktivn ist
 while(nextActivity==0){
 		
 	if (! actuellActivity->isRunning()||(actuellActivity -> isBlocked()||(actuellActivity -> isZombie()))){
-	//hole eine von Queue(Aktivitätsiste
+	//hole eine von Queue(Aktivitätsiste)
 	nextActivity =  (Activity*) readylist.dequeue();}
 		}
 
@@ -102,7 +102,7 @@ while(nextActivity==0){
 if(nextActivity!=0){
 nextActivity->changeTo(Activity::RUNNING);
 
-dispatch(nextActivity);// Zeige auf denn aktelle laufenden Prozess
+dispatch(nextActivity);// Zeige auf den aktuell laufenden Prozess
 }
 	}
 
