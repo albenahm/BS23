@@ -67,9 +67,11 @@ public:
 	 */
 	int ticks()
 	{
+		return this->ticksZahl;
 	}
     
 private:
+int ticksZahl;
 };
 
 extern Clock clock;
