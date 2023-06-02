@@ -47,6 +47,9 @@ public:
 	 * und Wechsel zum naechsten lauffaehigen Prozess
 	 */
 	void exit();
+	//Ueberpruefung ob Zeit abgelaufen ist fuer den aktuellen Prozess
+	void checkSlice();
+	
 
 protected:
 	/* Der aktive Prozess ist, sofern er sich nicht im Zustand
