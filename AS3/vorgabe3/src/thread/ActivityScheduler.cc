@@ -104,5 +104,16 @@ nextActivity->changeTo(Activity::RUNNING);
 
 dispatch(nextActivity);// Zeige auf denn aktelle laufenden Prozess
 }
-	}
+	
+
+void ActivityScheduler:: checkSlice(){
+// hier Arbeiten
+Activity* actuellActivity = (Activity*) active();
+if(actuellActivity->){
+this->reschedule();
+}
+	
+}
+	
+}
 
