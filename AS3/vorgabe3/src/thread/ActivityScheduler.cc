@@ -107,9 +107,10 @@ dispatch(nextActivity);// Zeige auf denn aktelle laufenden Prozess
 	
 
 void ActivityScheduler:: checkSlice(){
-// hier Arbeiten
+
 Activity* actuellActivity = (Activity*) active();
-if(actuellActivity->){
+// quatum() ist das max Zeit bei dem gewechselt wird . ticks() liefert die aktuelle Zeit
+if((actuellActivity->quantum()) <= (actuellActivity-> ticks())){
 this->reschedule();
 }
 	
