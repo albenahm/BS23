@@ -13,6 +13,7 @@
 
 #include "lib/Queue.h"
 #include "thread/Schedulable.h"
+#include "interrupts/IntLock.h"
 
 class Scheduler {
 public:
