@@ -39,7 +39,8 @@ private:
 		CONTROL_PORT 	= 0x43,
 		DATA_PORT 	= 0x40
 	};
-
+	IOPort8 kontroll;
+	IOPort8 data;
 };
 
 extern PIT pit;
