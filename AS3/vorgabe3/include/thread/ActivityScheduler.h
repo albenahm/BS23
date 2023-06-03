@@ -11,6 +11,7 @@
 #include "thread/Activity.h"
 #include "thread/Dispatcher.h"
 #include "thread/Scheduler.h"
+#include "interrupts/IntLock.h"
 
 class ActivityScheduler: public Dispatcher, public Scheduler {
 public:
