@@ -33,7 +33,7 @@ Clock::Clock (int us):Gate(Timer),PIT(us){
 void Clock::windup(int us){
 
     ticksZahl=0; // Initialisierung
-    pit.interval(us);// us an pit uebergeben und pit faenget zu zaehlen an
+    interval(us);// us an pit uebergeben und pit faenget zu zaehlen an
     pic.enable(PIC::PIT);//melde pit bei pic an
 }
 
