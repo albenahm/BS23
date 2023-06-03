@@ -1,6 +1,9 @@
 #ifndef Coroutine_h
 #define Coroutine_h
 
+#include "device/CPU.h"
+extern CPU cpu;
+
 /*
  * Coroutine:
  * Diese Klasse implementiert Coroutinen, welche die Basis
