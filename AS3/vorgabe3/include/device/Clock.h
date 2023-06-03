@@ -70,6 +70,12 @@ public:
 		return this->ticksZahl;
 	}
     
+	/*
+	* hilft bei zurcksetzen der Ticks
+	*/
+	void setTicksZahl(int tic){
+		this->ticksZahl=tic;
+	}
 private:
 int ticksZahl;
 };

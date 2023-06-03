@@ -1,5 +1,12 @@
 #include "thread/ActivityScheduler.h"
 #include "thread/Dispatcher.h"
+#include "interrupts/IntLock.h"
+#include "device/Clock.h"
+#include "device/CPU.h"
+
+
+Clock uhr; // Definiere eine Uhr
+
 
 /* Suspendieren des aktiven Prozesses
 
@@ -61,6 +68,9 @@ void ActivityScheduler::activate(Schedulable* to){
 		if (! actuellActivity->isRunning()||(actuellActivity -> isBlocked()||(actuellActivity -> isZombie()))){
 	//hole eine von Queue(Aktivitätsiste
 		nextActivity =  (Activity*) readylist.dequeue();
+		CPU::enableInterrupts();
+		CPU::halt();
+		CPU::disableInterrupts();
 		}
 	}
 	//wenn die geholte Aktivität schon exisitiert ist, dann wird sie ausgeführt.
@@ -75,8 +85,21 @@ void ActivityScheduler::checkSlice(){
 	IntLock lock;
 	Activity* actuellActivity = (Activity*) active();
 	// quatum() ist das max Zeit bei dem gewechselt wird . ticks() liefert die aktuelle Zeit
-	if((actuellActivity->quantum()) <= (actuellActivity-> ticks())){
+/*
+	if((actuellActivity->quantum()) <= (uhr.ticks())){
 		this->reschedule();
+		uhr.setTicksZahl(0);
 	}
-	
+*/
+
+if((actuellActivity->quantum()!=0)){
+
+	actuellActivity->quantum(actuellActivity->quantum()-1); // wenn Quantum bei akutellen Aktiviutat nicht 0 ist, dann wird um 1 reduziert
+
+}else{
+
+	reschedule();
+	actuellActivity->quantum(actuellActivity->quantumOrginal()); // wird quantum wieder gesetzt im Bezug auf dem urspruglichen Wert
+
+}
 }
