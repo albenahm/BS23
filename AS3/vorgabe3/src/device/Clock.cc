@@ -3,6 +3,11 @@
 #include "interrupts/InterruptVector.h"
 #include "thread/ActivityScheduler.h"
 #include "interrupts/IntLock.h"
+#include "io/PrintStream.h"
+#include "device/CgaChannel.h"
+
+CgaChannel cga;
+PrintStream out(cga);
 
 
 /**	Spaetere Initialisierung...
@@ -64,5 +69,12 @@ void Clock::handle(){
     ticksZahl++;
     pic.ack(); // Interrupt am PIC zu bestaetigen
     // scheduler.checkSlice();
+      cga.setCursor(0,0);
+      out.print(ticksZahl); 
+      out.println();
+      if(ticksZahl%4==0){out.print("\r/");}
+      if(ticksZahl%4==1){out.print("\r-");}
+      if(ticksZahl%4==2){out.print("\r\\");}
+      if(ticksZahl%4==3){out.print("\r|");}
 
 }
