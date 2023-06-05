@@ -18,16 +18,20 @@
 // Das sollte normalerweise *nicht* der Fall sein!
 class Hello: public Activity {
 public:
-	Hello(const char* name, PrintStream& out)
+	Hello(const char* name, PrintStream& out,int slice)
 		: cout(out)
 	{
 		this->name = name;
+		this->quantum(slice);
+		this->quantumOrginal(slice);
 	}
 
-	Hello(const char* name, PrintStream& out, void* sp)
+	Hello(const char* name, PrintStream& out, void* sp,int slice)
 		: Activity(sp), cout(out)
 	{
 		this->name = name;
+		this->quantum(slice);
+		this->quantumOrginal(slice);
 		wakeup();
 	}
 
@@ -44,6 +48,8 @@ public:
 				cout.print(name);
 				cout.print(" ");
 				cout.print(i);
+				cout.print(" ");
+				cout.print(clock.ticks());
 				cout.println();
 			}
             for(int j=0; j<10000; j++);
@@ -77,9 +83,9 @@ unsigned stack1[1024];
 
 extern "C" int main()
 {
-	Hello anton("Anton", out); // anton benutzt den Stack von main
-	Hello berta("Berta", out, &stack0[1024]);
-	Hello caesar("Caesar", out, &stack1[1024]);
+	Hello anton("Anton", out,2); // anton benutzt den Stack von main
+	Hello berta("Berta", out, &stack0[1024],5);
+	Hello caesar("Caesar", out, &stack1[1024],7);
 
 	cpu.enableInterrupts();
 	anton.body();

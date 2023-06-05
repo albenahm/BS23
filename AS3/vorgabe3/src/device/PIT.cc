@@ -21,9 +21,9 @@ PIT::PIT (int us):kontroll(CONTROL_PORT),data(DATA_PORT){
      */
 void PIT::interval (int us){
 
-    double usBasis = TIME_BASE/1000; // umwandle Basis von ns in us 
+    int usBasis = us* 1000; // umwandle Basis von ns in us 
     //int statt roundeven ?
-    short int tickzahlen = (us /usBasis); //rechne die tick Anzahlen und speichere in short (16 bits)
+    short int tickzahlen = (usBasis /TIME_BASE); //rechne die tick Anzahlen und speichere in short (16 bits)
 
     char lowByte= (char) tickzahlen; // da char nur 8 bit ist, wird die erste 8 bit genommen (low byte)
     char highByte= (char) tickzahlen>>8;// l;sche die erste 8 bits und so bekommt man High Byte

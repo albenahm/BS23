@@ -3,9 +3,14 @@
 #include "interrupts/IntLock.h"
 #include "device/Clock.h"
 #include "device/CPU.h"
+#include "io/PrintStream.h"
+#include "device/CgaChannel.h"
+
+extern CgaChannel cga;
+extern PrintStream out;
 
 
-Clock uhr; // Definiere eine Uhr
+extern Clock clock; // Definiere eine Uhr
 
 
 /* Suspendieren des aktiven Prozesses
@@ -51,6 +56,7 @@ void ActivityScheduler::exit(){
  */
 
 void ActivityScheduler::activate(Schedulable* to){
+	IntLock lock;
 
 	Activity* actuellActivity = (Activity*) active();
 	Activity* nextActivity = (Activity*) to;
@@ -67,10 +73,12 @@ void ActivityScheduler::activate(Schedulable* to){
 		
 		if (! actuellActivity->isRunning()||(actuellActivity -> isBlocked()||(actuellActivity -> isZombie()))){
 	//hole eine von Queue(Aktivitätsiste
+		CPU::disableInterrupts();
+		//CPU::halt();
 		nextActivity =  (Activity*) readylist.dequeue();
 		CPU::enableInterrupts();
-		CPU::halt();
-		CPU::disableInterrupts();
+		
+		
 		}
 	}
 	//wenn die geholte Aktivität schon exisitiert ist, dann wird sie ausgeführt.
@@ -83,23 +91,32 @@ void ActivityScheduler::activate(Schedulable* to){
 void ActivityScheduler::checkSlice(){
 
 	IntLock lock;
-	Activity* actuellActivity = (Activity*) active();
+	Schedulable* actuellActivity = (Activity*) active();
 	// quatum() ist das max Zeit bei dem gewechselt wird . ticks() liefert die aktuelle Zeit
 /*
-	if((actuellActivity->quantum()) <= (uhr.ticks())){
+	if((actuellActivity->quantum()) <= (clock.ticks())){
 		this->reschedule();
-		uhr.setTicksZahl(0);
+		clock.setTicksZahl(0);
 	}
 */
 
 if((actuellActivity->quantum()!=0)){
 
 	actuellActivity->quantum(actuellActivity->quantum()-1); // wenn Quantum bei akutellen Aktiviutat nicht 0 ist, dann wird um 1 reduziert
-
+				cga.setCursor(25,0);
+				out.print("          ");
+				cga.setCursor(16,0);
+				out.print(" ");
+				out.print(actuellActivity->quantum());
+				out.print(" ");
+				out.print(clock.ticks());
+				out.println();
 }else{
+				cga.setCursor(25,0);
+				out.print("Erfuellt !");
+	actuellActivity->quantum(actuellActivity->quantumOrginal()); // wird quantum wieder gesetzt im Bezug auf dem urspruglichen Wert
 
 	reschedule();
-	actuellActivity->quantum(actuellActivity->quantumOrginal()); // wird quantum wieder gesetzt im Bezug auf dem urspruglichen Wert
 
 }
 }

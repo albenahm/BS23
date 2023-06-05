@@ -1,4 +1,9 @@
 #include "thread/Scheduler.h"
+#include "io/PrintStream.h"
+#include "device/CgaChannel.h"
+
+extern CgaChannel cga;
+extern PrintStream out;
 
 //Einfuegen in Ready Liste
 void Scheduler::schedule(Schedulable* sched){
@@ -16,6 +21,8 @@ void Scheduler::remove(Schedulable* sched){
 void Scheduler::reschedule(){
     
     IntLock lock;
+    cga.setCursor(40,0);
+    out.print("Scheduler !");
     activate((Schedulable*) readylist.dequeue());
 
 };
