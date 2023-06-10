@@ -61,7 +61,6 @@ protected:
 	virtual void activate(Schedulable* to);
 
 private:
-
 };
 
 extern ActivityScheduler scheduler;

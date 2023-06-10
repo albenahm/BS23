@@ -3,11 +3,7 @@
 #include "interrupts/InterruptVector.h"
 #include "thread/ActivityScheduler.h"
 #include "interrupts/IntLock.h"
-#include "io/PrintStream.h"
-#include "device/CgaChannel.h"
 
-extern CgaChannel cga;
-extern PrintStream out;
 
 
 /**	Spaetere Initialisierung...
@@ -38,8 +34,8 @@ Clock::Clock (int us):Gate(Timer),PIT(us){
 void Clock::windup(int us){
 
     ticksZahl=0; // Initialisierung
-    interval(us);// us an pit uebergeben und pit faenget zu zaehlen an
     pic.enable(PIC::PIT);//melde pit bei pic an
+    interval(us);// us an pit uebergeben und pit faenget zu zaehlen an
 }
 
 /** 	Der Interrupt-Handler fuer die Uhr.
@@ -69,6 +65,7 @@ void Clock::handle(){
     ticksZahl++;
     pic.ack(); // Interrupt am PIC zu bestaetigen
     scheduler.checkSlice();
+    /*
       cga.setCursor(0,15);
       out.print(ticksZahl); 
       out.println();
@@ -77,5 +74,5 @@ void Clock::handle(){
       if(ticksZahl%4==1){out.print("\r-");}
       if(ticksZahl%4==2){out.print("\r\\");}
       if(ticksZahl%4==3){out.print("\r|");}
-
+*/
 }

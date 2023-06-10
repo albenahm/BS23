@@ -3,14 +3,11 @@
 #include "interrupts/IntLock.h"
 #include "device/Clock.h"
 #include "device/CPU.h"
-#include "io/PrintStream.h"
-#include "device/CgaChannel.h"
 
-extern CgaChannel cga;
-extern PrintStream out;
 
 
 extern Clock clock; // Definiere eine Uhr
+bool warten = true;// hilft bei suche nach naechstem Prozess
 
 
 /* Suspendieren des aktiven Prozesses
@@ -36,7 +33,7 @@ void ActivityScheduler::kill(Activity*  actActivity){
 
 	IntLock lock;
 	actActivity-> changeTo(Activity::ZOMBIE); // derzeitiger Prozess wird zerstört (Zombie)
-	(actActivity==(Activity *)active())?this->reschedule():remove(actActivity); // falls die act laeyt, dann fuehre die naechste aus der Liste aus.
+	(actActivity==(Activity *)active())?this->reschedule():remove((Schedulable *)actActivity); // falls die act laeyt, dann fuehre die naechste aus der Liste aus.
 };
 
 /* Terminieren des aktiven Prozesses,
@@ -47,7 +44,8 @@ void ActivityScheduler::exit(){
 
 	IntLock lock;
 	Activity*  actActivity= (Activity*)this->active();// bekomme die aktuelle Aktivitaet
-	actActivity-> changeTo(Activity::ZOMBIE);
+	//actActivity-> changeTo(Activity::ZOMBIE);
+	kill(actActivity);
 	reschedule(); // hole die neue
 }
 
@@ -56,36 +54,64 @@ void ActivityScheduler::exit(){
  */
 
 void ActivityScheduler::activate(Schedulable* to){
-	IntLock lock;
 
 	Activity* actuellActivity = (Activity*) active();
 	Activity* nextActivity = (Activity*) to;
+	
+	// wenn nextActivity nicht vorhanden ist
+	if(nextActivity==0){
+		if(actuellActivity->isRunning()){
+			// wenn actuellActivity laeuft, brauchen wir nichts zu tun
 
-	//hier prüfe,ob die actuelle Aktivitä aktiv ist
-	if(actuellActivity -> isRunning()&&(!(actuellActivity -> isBlocked())||(actuellActivity -> isZombie()))){
-	//wenn ja setze aktuelle Aktivitaet auf bereit und in Queue(bereitliste)
-		actuellActivity->changeTo(Activity::READY);
-		scheduler.schedule(actuellActivity);
-	}
-	//In diesem Punkt haben wir die laufende Aktivität deaktiviert.
-	//nun Suche nach die nächste Aktivität im Fall die akutelle nicht aktiv
-	while(nextActivity==0){
+		}else{
+
+		//nun Suche nach die nächste Aktivität im Fall die akutelle nicht aktiv
+			if(warten){
+
+				while(nextActivity==0){
+			
+					if (! actuellActivity->isRunning()||(actuellActivity -> isBlocked()||(actuellActivity -> isZombie()))){
+						//hole eine von Queue
+						warten=false;
+						nextActivity =  (Activity*) readylist.dequeue();
+						CPU::enableInterrupts(); //Zulassen der Interrupts
+						CPU::halt();// Anhalten der CPU bis zum naechsten Interrupt
+						CPU::disableInterrupts();// Sperren der Interrupts.
+					}
+				}
+
+				warten=true;
+
+				//wenn die geholte Aktivität schon exisitiert ist, dann wird sie ausgeführt.
+				if(nextActivity!=0){
+					nextActivity->changeTo(Activity::RUNNING);
+					dispatch(nextActivity);// Zeige auf denn aktelle laufenden Prozess
+				}
+			}
+		}
+
+	}else{
+		// hier ist die nextActivity verfuegbar und muss die actuellActivity auf redylist gesetzt werden
+		if(!(nextActivity->isZombie()||nextActivity->isBlocked())){
+			
+			//hier prüfe,ob die actuelle Aktivitä aktiv ist
+			if(actuellActivity -> isRunning()&&(!(actuellActivity -> isBlocked())||(actuellActivity -> isZombie()))){
 		
-		if (! actuellActivity->isRunning()||(actuellActivity -> isBlocked()||(actuellActivity -> isZombie()))){
-	//hole eine von Queue(Aktivitätsiste
-		CPU::disableInterrupts();
-		//CPU::halt();
-		nextActivity =  (Activity*) readylist.dequeue();
-		CPU::enableInterrupts();
-		
-		
+				//wenn ja setze aktuelle Aktivitaet auf bereit und in Queue(bereitliste)
+				actuellActivity->changeTo(Activity::READY);
+				scheduler.schedule(actuellActivity);
+			}
+			//In diesem Punkt haben wir die laufende Aktivität deaktiviert.
+			nextActivity->changeTo(Activity::RUNNING);
+			dispatch(nextActivity);// Zeige auf denn aktelle laufenden Prozess
+		}else{
+			// nextActivity nicht bereit 
+			return;
 		}
 	}
-	//wenn die geholte Aktivität schon exisitiert ist, dann wird sie ausgeführt.
-	if(nextActivity!=0){
-	nextActivity->changeTo(Activity::RUNNING);
-	dispatch(nextActivity);// Zeige auf denn aktelle laufenden Prozess
-	}
+
+
+	
 }	
 
 void ActivityScheduler::checkSlice(){
@@ -93,30 +119,20 @@ void ActivityScheduler::checkSlice(){
 	IntLock lock;
 	Schedulable* actuellActivity = (Activity*) active();
 	// quatum() ist das max Zeit bei dem gewechselt wird . ticks() liefert die aktuelle Zeit
-/*
+
 	if((actuellActivity->quantum()) <= (clock.ticks())){
-		this->reschedule();
 		clock.setTicksZahl(0);
+		reschedule();
+
 	}
-*/
 
-if((actuellActivity->quantum()!=0)){
 
-	actuellActivity->quantum(actuellActivity->quantum()-1); // wenn Quantum bei akutellen Aktiviutat nicht 0 ist, dann wird um 1 reduziert
-				cga.setCursor(25,0);
-				out.print("          ");
-				cga.setCursor(16,0);
-				out.print(" ");
-				out.print(actuellActivity->quantum());
-				out.print(" ");
-				out.print(clock.ticks());
-				out.println();
-}else{
-				cga.setCursor(25,0);
-				out.print("Erfuellt !");
-	actuellActivity->quantum(actuellActivity->quantumOrginal()); // wird quantum wieder gesetzt im Bezug auf dem urspruglichen Wert
+// if((actuellActivity->quantum()!=0)){
+// 	actuellActivity->quantum(actuellActivity->quantum()-1); // wenn Quantum bei akutellen Aktiviutat nicht 0 ist, dann wird um 1 reduziert
 
-	reschedule();
+// }else{
+// 	actuellActivity->quantum(actuellActivity->quantumOrginal()); // wird quantum wieder gesetzt im Bezug auf dem urspruglichen Wert
+// 	reschedule();
 
-}
+// }
 }

@@ -1,6 +1,6 @@
 #include "thread/Activity.h"
-
 #include "thread/ActivityScheduler.h"
+#include "interrupts/IntLock.h"
 
 
 
@@ -75,6 +75,7 @@ Activity:: ~Activity(){
 	 */
 
 	void Activity::wakeup(){
+		IntLock lock;
 
 	if(this->isBlocked()){
 
@@ -134,14 +135,16 @@ Activity:: ~Activity(){
 
 	void Activity::join(){
 
+		IntLock lock;
+
         Activity* aktuellProzess=(Activity*) scheduler.active();// acktive Prozess in einer lokal Variable 
 
         //Es existiert eine Aktivität und nicht derselbe laufende Prozess.
 
-        this->activitat=(Activity*) scheduler.active();
+      
 
         while(!(this->isZombie())&& this !=aktuellProzess){
-
+  			this->activitat=(Activity*) scheduler.active();
             scheduler.suspend();// Unterbrechung der laufenden Prozess
 
         }

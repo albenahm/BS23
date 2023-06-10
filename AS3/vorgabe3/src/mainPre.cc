@@ -18,19 +18,19 @@
 // Das sollte normalerweise *nicht* der Fall sein!
 class Hello: public Activity {
 public:
-	Hello(const char* name, PrintStream& out,int slice)
+	Hello(const char* name, PrintStream& out , int slice)
 		: cout(out)
 	{
 		this->name = name;
-		this->quantum(slice);
+		this->quantum(slice);  // hier wird den Quantum an der Prozess festgestellt 
 		this->quantumOrginal(slice);
 	}
 
-	Hello(const char* name, PrintStream& out, void* sp,int slice)
+	Hello(const char* name, PrintStream& out, void* sp, int slice)
 		: Activity(sp), cout(out)
 	{
 		this->name = name;
-		this->quantum(slice);
+		this->quantum(slice); // hier wird den Quantum an der Prozess festgestellt 
 		this->quantumOrginal(slice);
 		wakeup();
 	}
@@ -48,9 +48,8 @@ public:
 				cout.print(name);
 				cout.print(" ");
 				cout.print(i);
-				cout.print(" ");
-				cout.print(clock.ticks());
 				cout.println();
+				//for(int j=0; j<1000000; j++);
 			}
             for(int j=0; j<10000; j++);
 		}
@@ -68,7 +67,7 @@ CPU cpu;
 
 InterruptGuardian interruptGuardian;
 PIC pic;
-Clock clock(2500);
+Clock clock(250);
 
 // globale Ein-/Ausgabeobjekte
 CgaChannel cga;         // unser CGA-Ausgabekanal
@@ -81,11 +80,11 @@ ActivityScheduler scheduler;   // der Scheduler
 unsigned stack0[1024];
 unsigned stack1[1024];
 
-extern "C" int main()
+int main()
 {
-	Hello anton("Anton", out,2); // anton benutzt den Stack von main
+	Hello anton("Anton", out,3); // anton benutzt den Stack von main
 	Hello berta("Berta", out, &stack0[1024],5);
-	Hello caesar("Caesar", out, &stack1[1024],7);
+	Hello caesar("Caesar", out, &stack1[1024],10);
 
 	cpu.enableInterrupts();
 	anton.body();
