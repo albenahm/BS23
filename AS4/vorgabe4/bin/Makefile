@@ -56,7 +56,7 @@ SYSTEM_CC = \
 	thread/Coroutine.cc\
 	thread/Scheduler.cc\
 	thread/ActivityScheduler.cc\
-	mainPre.cc
+	mainInt.cc
 	#mainCo.cc
 
 

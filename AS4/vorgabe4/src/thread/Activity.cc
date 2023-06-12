@@ -75,7 +75,7 @@ Activity:: ~Activity(){
 	 */
 
 	void Activity::wakeup(){
-		IntLock lock;
+		IntLock sicher;
 
 	if(this->isBlocked()){
 
@@ -135,7 +135,7 @@ Activity:: ~Activity(){
 
 	void Activity::join(){
 
-		IntLock lock;
+		IntLock sicher;
 
         Activity* aktuellProzess=(Activity*) scheduler.active();// acktive Prozess in einer lokal Variable 
 
@@ -144,8 +144,9 @@ Activity:: ~Activity(){
       
 
         while(!(this->isZombie())&& this !=aktuellProzess){
-  			this->activitat=(Activity*) scheduler.active();
-            scheduler.suspend();// Unterbrechung der laufenden Prozess
+
+  		this->activitat=(Activity*) scheduler.active();
+            	scheduler.suspend();// Unterbrechung der laufenden Prozess
 
         }
 

@@ -82,8 +82,8 @@ unsigned stack1[1024];
 
 int main()
 {
-	Hello anton("Anton", out,3); // anton benutzt den Stack von main
-	Hello berta("Berta", out, &stack0[1024],5);
+	Hello anton("Anton", out,0); // anton benutzt den Stack von main
+	Hello berta("Berta", out, &stack0[1024],1);
 	Hello caesar("Caesar", out, &stack1[1024],10);
 
 	cpu.enableInterrupts();
