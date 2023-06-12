@@ -70,5 +70,5 @@ extern "C" int main()
 	cpu.enableInterrupts();
 	echo.body();
 
-	return 0;
+	//return 0;
 }

@@ -73,7 +73,7 @@ void ActivityScheduler::activate(Schedulable* to){
 			
 					if (! actuellActivity->isRunning()||(actuellActivity -> isBlocked()||(actuellActivity -> isZombie()))){
 						//hole eine von Queue
-						warten=true;
+						warten=false;
 						nextActivity =  (Activity*) readylist.dequeue();
 						CPU::enableInterrupts(); //Zulassen der Interrupts
 						CPU::halt();// Anhalten der CPU bis zum naechsten Interrupt
@@ -81,7 +81,7 @@ void ActivityScheduler::activate(Schedulable* to){
 					}
 				}
 
-				warten=false;
+				warten=true;
 
 				//wenn die geholte Aktivität schon exisitiert ist, dann wird sie ausgeführt.
 				if(nextActivity!=0){

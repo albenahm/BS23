@@ -8,8 +8,8 @@
 #include "io/PrintStream.h"
 
 
-extern CgaChannel cga;         // unser CGA-Ausgabekanal
-extern PrintStream out; 
+//extern CgaChannel cga;         // unser CGA-Ausgabekanal
+//extern PrintStream out; 
 
 
 /**	Spaetere Initialisierung...
@@ -70,8 +70,8 @@ void Clock::handle(){
     IntLock sicher; // spere Interrupts ab jetzt
     ticksZahl++;
     pic.ack(); // Interrupt am PIC zu bestaetigen
-    //scheduler.checkSlice();
-    
+    scheduler.checkSlice();
+    /*
       cga.setCursor(0,15);
       out.print(ticksZahl); 
       out.println();
@@ -80,5 +80,5 @@ void Clock::handle(){
       if(ticksZahl%4==1){out.print("\r-");}
       if(ticksZahl%4==2){out.print("\r\\");}
       if(ticksZahl%4==3){out.print("\r|");}
-
+*/
 }

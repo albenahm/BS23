@@ -56,7 +56,12 @@ SYSTEM_CC = \
 	thread/Coroutine.cc\
 	thread/Scheduler.cc\
 	thread/ActivityScheduler.cc\
-	mainInt.cc
+	device/Keyboard.cc \
+	device/CodeTable.cc \
+	tools/Calc.cc \
+	tools/Interp.cc \
+	tools/Scanner.cc \
+	mainKbd.cc
 	#mainCo.cc
 
 
