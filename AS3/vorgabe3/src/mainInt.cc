@@ -54,7 +54,7 @@ CPU cpu;
 
 InterruptGuardian interruptGuardian;
 PIC pic;
-Clock clock(25000);
+Clock clock(15000);
 
 // globale Ein-/Ausgabeobjekte
 CgaChannel cga;         // unser CGA-Ausgabekanal

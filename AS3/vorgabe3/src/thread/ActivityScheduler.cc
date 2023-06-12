@@ -20,7 +20,7 @@ bool warten = true;// hilft bei suche nach naechstem Prozess
 
 void ActivityScheduler::suspend(){
 
-	IntLock lock;
+	IntLock sicher;
     	((Activity *)active())-> changeTo(Activity::BLOCKED); // derzeitiger Prozess wird geblockt (suspendiert)
 	this->reschedule();
 };
@@ -31,9 +31,10 @@ void ActivityScheduler::suspend(){
 
 void ActivityScheduler::kill(Activity*  actActivity){
 
-	IntLock lock;
+	IntLock sicher;
 	actActivity-> changeTo(Activity::ZOMBIE); // derzeitiger Prozess wird zerstört (Zombie)
-	(actActivity==(Activity *)active())?this->reschedule():remove((Schedulable *)actActivity); // falls die act laeyt, dann fuehre die naechste aus der Liste aus.
+	if (actActivity==(Activity *)active()){this->reschedule();}
+	remove((Schedulable *)actActivity); // falls die act laeyt, dann fuehre die naechste aus der Liste aus.
 };
 
 /* Terminieren des aktiven Prozesses,
@@ -42,7 +43,7 @@ void ActivityScheduler::kill(Activity*  actActivity){
 
 void ActivityScheduler::exit(){
 
-	IntLock lock;
+	IntLock sicher;
 	Activity*  actActivity= (Activity*)this->active();// bekomme die aktuelle Aktivitaet
 	//actActivity-> changeTo(Activity::ZOMBIE);
 	kill(actActivity);
@@ -72,7 +73,7 @@ void ActivityScheduler::activate(Schedulable* to){
 			
 					if (! actuellActivity->isRunning()||(actuellActivity -> isBlocked()||(actuellActivity -> isZombie()))){
 						//hole eine von Queue
-						warten=false;
+						warten=true;
 						nextActivity =  (Activity*) readylist.dequeue();
 						CPU::enableInterrupts(); //Zulassen der Interrupts
 						CPU::halt();// Anhalten der CPU bis zum naechsten Interrupt
@@ -80,7 +81,7 @@ void ActivityScheduler::activate(Schedulable* to){
 					}
 				}
 
-				warten=true;
+				warten=false;
 
 				//wenn die geholte Aktivität schon exisitiert ist, dann wird sie ausgeführt.
 				if(nextActivity!=0){
@@ -116,7 +117,7 @@ void ActivityScheduler::activate(Schedulable* to){
 
 void ActivityScheduler::checkSlice(){
 
-	IntLock lock;
+	IntLock sicher;
 	Schedulable* actuellActivity = (Activity*) active();
 	// quatum() ist das max Zeit bei dem gewechselt wird . ticks() liefert die aktuelle Zeit
 
