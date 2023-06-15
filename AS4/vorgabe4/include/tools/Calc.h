@@ -53,6 +53,10 @@ public:
     void body();
 
 private:
+    // hoehe, breite , Ergebnis 
+    int column;
+    int row;
+    int result;
     /** Interne Konstanten */
     enum {
         // Maximale Länge eines Ausdrucks (darf die Zeilenlänge (= 80) nicht überschreiten)
