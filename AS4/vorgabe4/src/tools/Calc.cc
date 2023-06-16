@@ -56,6 +56,50 @@ void Calculator::body()
 
 {
 
+	if(key.isAscii()){// getValue liefert eine Zahl oder den Buchstaben?
+
+		if((key.getValue() <= 126) && (key.getValue() >= 32)){
+
+			insert()
+
+		}
+
+	}
+
+	else{
+
+		switch(key.getValue()){
+
+		case 79 ://enter , vielleicht END gemeint?
+
+			enter();
+
+			break;
+
+		case 75:// links
+
+			moveLeft();
+
+			break;
+
+		case 77://rechts
+
+			moveRight();
+
+			break;
+
+		}
+
+			
+
+	}
+
+	
+
+		
+
+	}
+
 }
 
 
@@ -63,6 +107,48 @@ void Calculator::body()
 void Calculator::insert(char c)
 
 {
+
+	bool nichtleer = true;// boolwert fuer unsere While-Schleife
+
+	int stelle = column;//Stelle im Buffer
+
+	char transfer;// wird genutzt falls ein Wert an der Stelle steht, an der eingefuegt wird
+
+	while (nichtleer){
+
+		if(buffer[stelle] != 0){
+
+			// Das Zeichen das gerade an der Stelle steht auf c setzen und das was auf c steht an diese Stelle in den Buffer
+
+			transfer = buffer[stelle];//char an der Stelle
+
+			buffer[stelle] = c;
+
+			c = transfer;
+
+			if((EXPR_SIZE_MAX+1) == (stelle+1)){// falls der buffer an Stelle 79 ist und weiterschreiben soll wird das Zeichen was geschoben wird verworfen
+
+				nichtleer = false;
+
+			}
+
+			stelle++;
+
+		}
+
+		else{
+
+			buffer[stelle] = c;
+
+			nichtleer = false
+
+		}
+
+		
+
+	}
+
+	renderBuffer()//?
 
 	
 
