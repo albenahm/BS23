@@ -14,6 +14,8 @@ extern CgaChannel cga;
 
 extern PrintStream out;
 
+extern Key key;
+
 
 
 Calculator::Calculator()
@@ -54,45 +56,61 @@ void Calculator::init()
 
 void Calculator::body()
 
-{
+{	
 
-	if(key.isAscii()){// getValue liefert eine Zahl oder den Buchstaben?
+	int i = 0;
 
-		if((key.getValue() <= 126) && (key.getValue() >= 32)){
+	while(i != 1){
 
-			insert()
+		keyboard.read();//liefert ein zeichen aus dem Tastaturpuffer
 
-		}
+		char value;
 
-	}
+		value = key.getValue();
 
-	else{
+	
 
-		switch(key.getValue()){
+		if(key.isAscii()){// getValue liefert eine Zahl oder den Buchstaben?
 
-		case 79 ://enter , vielleicht END gemeint?
+			if((((int)value) <= 126) && (((int)value) >= 32)){
 
-			enter();
+				insert(value);
 
-			break;
-
-		case 75:// links
-
-			moveLeft();
-
-			break;
-
-		case 77://rechts
-
-			moveRight();
-
-			break;
+			}
 
 		}
+
+		else{
+
+			switch(((int)value)){
+
+			case 79 ://enter , vielleicht END gemeint?
+
+				enter();
+
+				break;
+
+			case 75:// links
+
+				moveLeft();
+
+				break;
+
+			case 77://rechts
+
+				moveRight();
+
+				break;
+
+			default:
+
+				break;
+
+			}
 
 			
 
-	}
+		}
 
 	
 
@@ -140,7 +158,7 @@ void Calculator::insert(char c)
 
 			buffer[stelle] = c;
 
-			nichtleer = false
+			nichtleer = false;
 
 		}
 
@@ -148,7 +166,7 @@ void Calculator::insert(char c)
 
 	}
 
-	renderBuffer()//?
+	renderBuffer();//?
 
 	
 
@@ -172,7 +190,7 @@ void Calculator::enter()
 
 		// Ergebnis ausgabe
 
-	 	out.print(result)
+	 	out.print(result);
 
 	}
 
@@ -180,7 +198,7 @@ void Calculator::enter()
 
 		// Fehlercode ausgabe 
 
-		(Calculator*) printErrorMsg(code);
+		printErrorMsg(code);
 
 	}
 
