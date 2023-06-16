@@ -35,11 +35,21 @@ bool Scanner::lookahead(char* dest)
 
 bool Scanner::isDigit(char ch)
 {
+    if((((int) ch) <=57) && (((int) ch) >=48) ){
+
+   	return true;
+
+   }
    return false;
 }
 
 bool Scanner::isWhitespace(char ch)
 {
+    if(((int)ch) == 32){
+
+	return true;
+
+   }
    return false;
 }
 
