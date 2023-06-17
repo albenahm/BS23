@@ -76,7 +76,7 @@ void Calculator::body()
 
 		if(key.isAscii()){// getValue liefert eine Zahl oder den Buchstaben?
 
-			if( ((((int)value) <= 57) && (((int)value) >= 40)) || (((int)value) == 32)){//32 Space Taste
+			if( (((int)value) == 32) || ((((int)value) <= 43) && (((int)value) >= 40)) || (((int)value) == 45) ||  ((((int)value) <= 57) && (((int)value) >= 47)) || ((((int)value) <= 70) && (((int)value) >= 65)) || ((((int)value) <= 102) && (((int)value) >= 97)) || (((int)value) == 120) ){//32 Space , 40-43 (Klammer auf,zu und Plus), 45 Minus, 47 geteilt, 48-57 0-9, 65-70 A-F, 97-102 a-f, 120 x
 
 				insert(value);
 
@@ -152,44 +152,6 @@ void Calculator::loesche(){
 
 	cga.getCursor(stelle,row);
 
-	bool nichtleer = true;// boolwert fuer unsere While-Schleife
-
-	/*while (nichtleer){
-
-		if(buffer[stelle] != 0){
-
-			if(buffer[stelle+1] == 0){
-
-				buffer[stelle] = 32;
-
-				nichtleer = false;
-
-			}
-
-			else{
-
-				// Das Zeichen das gerade an der Stelle steht auf c setzen und das was auf c steht an diese Stelle in den Buffer
-
-				buffer[stelle-1] = buffer[stelle];//char an der Stelle
-
-				stelle++;
-
-			}
-
-			
-
-		}
-
-		else{
-
-			nichtleer = false;
-
-		}
-
-		
-
-	}*/
-
 	if(stelle !=0){
 
 		buffer[stelle-1] = 32;
@@ -219,6 +181,10 @@ void Calculator::loesche(){
 void Calculator::insert(char c)
 
 {
+
+	//buffer[0]='+';
+
+	//renderBuffer();
 
 	int stelle;//Stelle im Buffer
 
@@ -270,15 +236,13 @@ void Calculator::insert(char c)
 
 	}
 
-	//buffer[0] = 43;
+	//buffer[0] = 49;
 
-	//buffer[1] = 49;
+	//buffer[1] = 43;
 
 	//buffer[2] = 49;
 
 	renderBuffer();//?
-
-	//moveRight();
 
 }
 
@@ -301,6 +265,8 @@ void Calculator::enter()
 		// Ergebnis ausgabe
 
 		out.println();
+
+		out.print("= ");
 
 	 	out.print(result);
 
