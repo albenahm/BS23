@@ -83,6 +83,11 @@ private:
      *      Ein ASCII-Zeichen
      */
     void insert(char c);
+    
+    /**
+    * Methode zum Löschen eines Zeichens. Andere Zeichen werden dann nachgerueckt
+    */
+    void loesche();
 
     /**
      * Behandelt das Betätigen der Eingabe-Taste.
@@ -97,6 +102,7 @@ private:
      * Für die Eingabe des nächsten Ausdrucks sollte der Cursor
      * entsprechend positioniert werden.
      */
+     
     void enter();
 
     /**
