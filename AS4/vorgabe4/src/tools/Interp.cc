@@ -194,5 +194,61 @@ int Interpreter::evalNum()
 
 int Interpreter::evalDump()
 {
-    return 0;
+     char ch = lookahead();
+
+    // Prüfe auf 0x (ob Adresse)
+
+    if (ch == '0') {
+
+        // Gehe zu nächsten Symbol
+
+        consume();
+
+        ch = lookahead();
+
+        
+
+        if(ch == 'x'){
+
+        	//naechstes Symbol
+
+        	consume();
+
+        	ch = lookahead();
+
+        	
+
+        	while(ch != 0){
+
+        		//zusammen fuehren
+
+        		
+
+        		//naechstes Symbol
+
+        		consume();
+
+        		ch = lookahead();
+
+        	}
+
+        	//WEGNEHMEN WENN DIE METHODE KORREKT
+
+        	return 0;
+
+        }
+
+        else{
+
+        	return 0;
+
+        }
+
+    }
+
+    else{
+
+    	return 0;
+
+    }  
 }
