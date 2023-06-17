@@ -58,13 +58,17 @@ void Calculator::body()
 
 {	
 
-	int i = 0;
+	
 
-	while(i != 1){
+	Key key;
 
-		keyboard.read();//liefert ein zeichen aus dem Tastaturpuffer
+	do{
+
+		key=keyboard.read();//liefert ein zeichen aus dem Tastaturpuffer
 
 		char value;
+
+		
 
 		value = key.getValue();
 
@@ -72,9 +76,25 @@ void Calculator::body()
 
 		if(key.isAscii()){// getValue liefert eine Zahl oder den Buchstaben?
 
-			if((((int)value) <= 126) && (((int)value) >= 32)){
+			if( ((((int)value) <= 57) && (((int)value) >= 40)) || (((int)value) == 32)){//32 Space Taste
 
 				insert(value);
+
+				moveRight();
+
+			}
+
+			if((((int)value) == 10)){//enter Taste
+
+				enter();	
+
+			}
+
+			if((((int)value) == 8)){//loesch Taste
+
+				loesche();
+
+				moveLeft();
 
 			}
 
@@ -84,11 +104,11 @@ void Calculator::body()
 
 			switch(((int)value)){
 
-			case 79 ://enter , vielleicht END gemeint?
+			//case 79 ://enter , vielleicht END gemeint?
 
-				enter();
+			//	enter();
 
-				break;
+			//	break;
 
 			case 75:// links
 
@@ -118,6 +138,80 @@ void Calculator::body()
 
 	}
 
+	while(((int)key.getValue()) != 27);
+
+	out.println();
+
+	out.print("ENDE");
+
+}
+
+void Calculator::loesche(){
+
+	int stelle;//Stelle im Buffer
+
+	cga.getCursor(stelle,row);
+
+	bool nichtleer = true;// boolwert fuer unsere While-Schleife
+
+	/*while (nichtleer){
+
+		if(buffer[stelle] != 0){
+
+			if(buffer[stelle+1] == 0){
+
+				buffer[stelle] = 32;
+
+				nichtleer = false;
+
+			}
+
+			else{
+
+				// Das Zeichen das gerade an der Stelle steht auf c setzen und das was auf c steht an diese Stelle in den Buffer
+
+				buffer[stelle-1] = buffer[stelle];//char an der Stelle
+
+				stelle++;
+
+			}
+
+			
+
+		}
+
+		else{
+
+			nichtleer = false;
+
+		}
+
+		
+
+	}*/
+
+	if(stelle !=0){
+
+		buffer[stelle-1] = 32;
+
+	
+
+	for(int i=0; buffer[stelle] != 0;i++){
+
+		int transfer = buffer[stelle-1];
+
+		buffer[stelle-1]=buffer[stelle];
+
+		buffer[stelle]= transfer;
+
+		stelle++;
+
+	}
+
+	}
+
+	renderBuffer();
+
 }
 
 
@@ -126,9 +220,13 @@ void Calculator::insert(char c)
 
 {
 
+	int stelle;//Stelle im Buffer
+
+	cga.getCursor(stelle,row);
+
 	bool nichtleer = true;// boolwert fuer unsere While-Schleife
 
-	int stelle = column;//Stelle im Buffer
+	
 
 	char transfer;// wird genutzt falls ein Wert an der Stelle steht, an der eingefuegt wird
 
@@ -140,7 +238,7 @@ void Calculator::insert(char c)
 
 			transfer = buffer[stelle];//char an der Stelle
 
-			buffer[stelle] = c;
+			buffer[stelle] = (int)c;
 
 			c = transfer;
 
@@ -156,7 +254,13 @@ void Calculator::insert(char c)
 
 		else{
 
-			buffer[stelle] = c;
+			buffer[stelle] = (int) c;
+
+			//out.println();
+
+			//out.print(stelle);
+
+			//out.println();
 
 			nichtleer = false;
 
@@ -166,9 +270,15 @@ void Calculator::insert(char c)
 
 	}
 
+	//buffer[0] = 43;
+
+	//buffer[1] = 49;
+
+	//buffer[2] = 49;
+
 	renderBuffer();//?
 
-	
+	//moveRight();
 
 }
 
@@ -190,6 +300,8 @@ void Calculator::enter()
 
 		// Ergebnis ausgabe
 
+		out.println();
+
 	 	out.print(result);
 
 	}
@@ -198,9 +310,15 @@ void Calculator::enter()
 
 		// Fehlercode ausgabe 
 
+		out.println();
+
 		printErrorMsg(code);
 
+		
+
 	}
+
+	clearBuffer();
 
 	// neue Zeile Cursor platzieren
 
@@ -226,6 +344,8 @@ void Calculator::moveLeft()
 
 		cga.setCursor(column,row);
 
+		
+
 	}
 
 }
@@ -242,7 +362,7 @@ void Calculator::moveRight()
 
 	// Darf sich nicht ueber den rechten Rand hinaus bewegen
 
-	if(column != 79){
+	if(column != 31){
 
 		column++;
 
