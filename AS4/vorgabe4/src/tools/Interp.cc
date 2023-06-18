@@ -194,61 +194,51 @@ int Interpreter::evalNum()
 
 int Interpreter::evalDump()
 {
-     char ch = lookahead();
-
-    // Prüfe auf 0x (ob Adresse)
-
-    if (ch == '0') {
-
-        // Gehe zu nächsten Symbol
-
-        consume();
-
-        ch = lookahead();
-
-        
-
-        if(ch == 'x'){
-
-        	//naechstes Symbol
-
-        	consume();
-
-        	ch = lookahead();
-
-        	
-
-        	while(ch != 0){
-
-        		//zusammen fuehren
-
-        		
-
-        		//naechstes Symbol
-
-        		consume();
-
-        		ch = lookahead();
-
-        	}
-
-        	//WEGNEHMEN WENN DIE METHODE KORREKT
-
-        	return 0;
-
-        }
-
-        else{
-
-        	return 0;
-
-        }
-
-    }
-
-    else{
-
+    /*consume();	
+    if (lookahead() == '0'){ // Überprüfen auf 0x (das * wurde schon gefrüft beim Aufrufer der Methode)
+    	consume();
+    	if( lookahead() == 'x'){ // Überprüfen des "x" von 0x
+    		consume();
+    		int* position;	// Zeiger festlegen. über den
+    		if (lookahead() == '0') { // Überprüfung ob es die Null-Adresse ist, wenn ja dann gib nur 0 zurück
+    			return 0;
+    		}
+    		while(lookahead() != '\0'){ // While Schleife zum Durchlesen der geschriebenen Adresse und schrittweise Hinzufügen der Zeichen in *position (wie in CGAScreen)
+    			
+    			*position = lookahead();
+    			consume();
+    			position++;
+    			
+    		}
+    		int* pointer = position;
+    		position = pointer;
+    		int value = *position; // Wert an der Adresse rausbekommen und auswerten und danach zurückgeben
+    		out.println();
+    		out.print(position);
+    		return value;
+    		
+    	}
+    	
     	return 0;
-
-    }  
+    }
+   
+    return 0;
+    */
+    // Ein anderer Versuch 
+    
+    consume();
+    int adresse = evalNum();
+    out.println();
+    out.print((int*)adresse);
+    
+    if (adresse != 0) {
+    	return *((int*) adresse);
+    	}
+    
+    else {
+     	out.println();
+     	out.print("Nullpointer");
+     	return 0;
+     }
+    
 }
