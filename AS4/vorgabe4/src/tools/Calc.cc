@@ -34,7 +34,7 @@ void Calculator::body()
 		value = key.getValue();
 		if(key.isAscii()){// getValue liefert eine Zahl oder den Buchstaben?
 
-			if( (((int)value) == 32) || ((((int)value) <= 43) && (((int)value) >= 40)) || (((int)value) == 45) ||  ((((int)value) <= 57) && (((int)value) >= 47)) || ((((int)value) <= 70) && (((int)value) >= 65)) || ((((int)value) <= 102) && (((int)value) >= 97)) || (((int)value) == 120) || (((int)value) == 37)){//32 Space , 40-43 (Klammer auf,zu und Plus), 45 Minus, 47 geteilt, 48-57 0-9, 65-70 A-F, 97-102 a-f, 120 x und 37 für Prozentzeichen %
+			if( (((int)value) == 32) || ((((int)value) <= 43) && (((int)value) >= 40)) || (((int)value) == 45) ||  ((((int)value) <= 57) && (((int)value) >= 47)) || ((((int)value) <= 102) && (((int)value) >= 97)) || (((int)value) == 120) || (((int)value) == 37)){//32 Space , 40-43 (Klammer auf,zu und Plus), 45 Minus, 47 geteilt, 48-57 0-9, KEINE Grossbuchstaben, 97-102 a-f, 120 x und 37 für Prozentzeichen %
 
 				insert(value);
 				moveRight();
