@@ -1,4 +1,7 @@
 #include "tools/Interp.h"
+#include "io/PrintStream.h"
+
+extern PrintStream out;
 
 unsigned Interpreter::eval(char* input, int& result)
 {
