@@ -2,6 +2,7 @@
 
 #include "device/PIC.h"
 #include "interrupts/InterruptVector.h"
+#include "sync/KernelLock.h"
 
 
 Keyboard::Keyboard() :
@@ -17,7 +18,7 @@ Keyboard::Keyboard() :
 
 	pic.enable(PIC::KEYBOARD);
 }
-
+/*
 void Keyboard::handle()
 {
 	if(ctrlPort.read() & AUX_BIT){
@@ -27,6 +28,34 @@ void Keyboard::handle()
 		analyzeScanCode();
 	}
 	pic.ack(PIC::KEYBOARD);
+}
+*/
+
+// hier wird scanCode inn Buffer gespeichert, um spaeter in epilogue zb bearbeiten
+bool Keyboard::prologue(){
+	if(ctrlPort.read() & AUX_BIT){
+		//behandle hier die Maus
+	}else{
+		scanCode = dataPort.read();
+		scanCode_Buffer.add(scanCode); // packe scanCode in Buffer
+	}
+	pic.ack(PIC::KEYBOARD);
+	return true;
+}
+
+void Keyboard::epilogue(){
+
+	monitor.leave();// falls epilogue noch nicht ausgefuehrt wird.
+
+	while (scanCode_Buffer.getBufferZaeler()>0)
+	{
+		monitor.enter();//Die Methode zum betreten, sperren des Monitors, aus der Anwendung heraus.
+		scanCode=scanCode_Buffer.get();// hole ein scancode 
+		monitor.leave();
+		analyzeScanCode();
+	}
+	
+
 }
 
 
@@ -193,7 +222,7 @@ void Keyboard::reboot ()
 	*(unsigned short*) 0x472 = 0x1234;
 
 	waitForWrite();
-	ctrlPort.write (RESET_CODE);     // Reset auslösen
+	ctrlPort.write (RESET_CODE);     // Reset auslï¿½sen
 }
 
 

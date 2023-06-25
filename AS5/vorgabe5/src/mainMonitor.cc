@@ -12,7 +12,7 @@ Console console(keyboard,screen);
 PrintStream out(console);
 ActivityScheduler scheduler;
 
-extern "C" int main()
+ int main()
 {
 	out.println("main: starting appl...");
 
@@ -37,5 +37,5 @@ extern "C" int main()
 	// nun ist wirklich Schluss...
 	out.println("main: system terminating...");
 
-	return 0;
+	//return 0;
 }

@@ -1,4 +1,5 @@
 #include "thread/Coroutine.h"
+#include "sync/Monitor.h"
 
 
 /* Diese Funktion hat nur die Aufgabe
@@ -11,7 +12,8 @@
     * und deshalb keinen impliziten "this"-Zeiger uebergeben bekommt.
     */
 void Coroutine::startup(Coroutine* obj){
-    cpu.enableInterrupts(); // fuer die Interrupts
+    //cpu.enableInterrupts(); // fuer die Interrupts
+    monitor.leave();
     obj->body(); // wird die Body fuer Coroutine erstellt
     obj->exit();  // wird die Coroutine beendet
 }

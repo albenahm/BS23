@@ -58,10 +58,14 @@ SYSTEM_CC = \
 	thread/ActivityScheduler.cc\
 	device/Keyboard.cc \
 	device/CodeTable.cc \
-	tools/Calc.cc \
 	tools/Interp.cc \
 	tools/Scanner.cc \
-	mainKbd.cc
+	sync/KernelSemaphore.cc \
+	sync/Monitor.cc \
+	system/Console.cc \
+	user/Hello.cc \
+	user/Init.cc \
+	mainMonitor.cc 
 	#mainCo.cc
 
 

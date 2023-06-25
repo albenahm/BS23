@@ -73,6 +73,10 @@ public:
 
 	}
 
+	int getBufferZaeler(){
+		return this->Zaehler;
+	}
+
 private:
 	T buffer[size];
 	int Zaehler; // Zaehler fuer hinzugefuegte Elemente

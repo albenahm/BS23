@@ -1,5 +1,6 @@
 #include "device/Clock.h"
 #include "device/PIC.h"
+#include "device/CPU.h"
 #include "interrupts/InterruptVector.h"
 #include "thread/ActivityScheduler.h"
 #include "interrupts/IntLock.h"
@@ -66,12 +67,15 @@ void Clock::windup(int us){
     *	die "checkSlice" Methode des Schedulers auf,
     *	um diesen ggf. zum praeemptiven Rescheduling zu veranlassen.
     */
+
+/*
+
 void Clock::handle(){
     IntLock sicher; // spere Interrupts ab jetzt
     ticksZahl++;
     pic.ack(); // Interrupt am PIC zu bestaetigen
     scheduler.checkSlice();
-    /*
+    
       cga.setCursor(0,15);
       out.print(ticksZahl); 
       out.println();
@@ -81,4 +85,18 @@ void Clock::handle(){
       if(ticksZahl%4==2){out.print("\r\\");}
       if(ticksZahl%4==3){out.print("\r|");}
 */
+
+/*Hier wird die handel Methode auf zwei methoden aufgeteilet
+* prologue stellt die Vorbedingung dar oder was muss zuerst ausgefuert werden 
+*/
+bool Clock::prologue(){
+    ticksZahl++;
+    pic.ack(); // Interrupt am PIC zu bestaetigen
+    return true;
 }
+
+// epilogue setlle die Nachbedingung dar oder was muss spaeter ausgefuehrt werden
+void Clock::epilogue(){
+    scheduler.checkSlice();
+}
+

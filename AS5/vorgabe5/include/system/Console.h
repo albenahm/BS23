@@ -3,13 +3,15 @@
 
 #include "io/InputChannel.h"
 #include "io/OutputChannel.h"
+#include "system/Semaphore.h"
 
 /**
  *  Console:	Die Systemkonsole
  */
-class Console: 	public InputChannel, public OutputChannel{
+class Console : public InputChannel, public OutputChannel
+{
 public:
-	Console(InputChannel& input, OutputChannel& output);
+	Console(InputChannel &input, OutputChannel &output);
 
 	/** 	Konsole reservieren
 	 */
@@ -21,7 +23,7 @@ public:
 
 	/** 	Daten auf der Console ausgeben
 	 */
-	virtual int write(const char* data, int size);
+	virtual int write(const char *data, int size);
 
 	/** 	Jedes von der Tastatur eingelesene Zeichen
 	 * 	soll auf dem Bildschirm dargestellt werden (Echo Funktion!)
@@ -30,20 +32,24 @@ public:
 	 *	Alle gelesenen Ascii-zeichen sind in den Puffer einzutragen
 	 *	und zaehlen als gueltiges Zeichen!
 	 */
-	virtual int read(char* data, int size);
+	virtual int read(char *data, int size);
 
-	/** 	Liefert das nächste Zeichen aus dem Eingabepuffer zurück.
+	/** 	Liefert das nï¿½chste Zeichen aus dem Eingabepuffer zurï¿½ck.
 	 */
 	char read();
 
-    /**
-     * print bluescreen
-     */
-    virtual void blueScreen(const char* msg)
-    {
-        output.blueScreen(msg);
-    }
+	/**
+	 * print bluescreen
+	 */
+	virtual void blueScreen(const char *msg)
+	{
+		output.blueScreen(msg);
+	}
+
 private:
+	InputChannel &input;
+	OutputChannel &output;
+	Semaphore semaphore;
 };
 
 #endif

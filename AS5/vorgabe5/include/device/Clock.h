@@ -75,10 +75,10 @@ public:
 	* hilft bei zurcksetzen der Ticks
 	*/
 	void setTicksZahl(int tic){
-		this->ticksZahl=tic;
+		this->ticksZahl=tic;}
     
 private:
-int ticksZahl;
+   int ticksZahl;
 };
 
 extern Clock clock;

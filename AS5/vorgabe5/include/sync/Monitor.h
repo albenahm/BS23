@@ -4,7 +4,7 @@
 #include "lib/Queue.h"
 #include "interrupts/Gate.h"
 
-/** 	Die Monitorimplementierung für den Kern.
+/** 	Die Monitorimplementierung fï¿½r den Kern.
  *	Beachte das der Monitor synchron (Anwendung) als auch asynchron
  * 	(Interrupt) betreten werden kann.
  */
@@ -22,7 +22,7 @@ public:
 	 */
 	void enter() { free = false; }
 
-	/** 	Wenn der Monitor verlassen wird, müssen alle ausstehenden Epiloge sofort
+	/** 	Wenn der Monitor verlassen wird, mï¿½ssen alle ausstehenden Epiloge sofort
 	 *	abgearbeitet werden.
 	 */
 	void leave();
@@ -32,7 +32,7 @@ public:
 		return free;
 	}
 
-	/** 	Diese Methode wird während der Interruptbehandlung aufgerufen, wenn ein
+	/** 	Diese Methode wird wï¿½hrend der Interruptbehandlung aufgerufen, wenn ein
 	 *	Epilog abgearbeitet werden muss. Ist der Monitor besetzt muss der Epilog
 	 *	in die Warteschlange eingereiht werden, darf aber maximal einmal in der
 	 *	Warteschlange sein.

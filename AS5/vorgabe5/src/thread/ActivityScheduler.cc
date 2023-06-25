@@ -3,6 +3,7 @@
 #include "interrupts/IntLock.h"
 #include "device/Clock.h"
 #include "device/CPU.h"
+#include "sync/Monitor.h"
 
 
 
@@ -20,7 +21,7 @@ bool warten = true;// hilft bei suche nach naechstem Prozess
 
 void ActivityScheduler::suspend(){
 
-	IntLock sicher;
+	//IntLock sicher;
     	((Activity *)active())-> changeTo(Activity::BLOCKED); // derzeitiger Prozess wird geblockt (suspendiert)
 	this->reschedule();
 };
@@ -31,7 +32,7 @@ void ActivityScheduler::suspend(){
 
 void ActivityScheduler::kill(Activity*  actActivity){
 
-	IntLock sicher;
+	//IntLock sicher;
 	actActivity-> changeTo(Activity::ZOMBIE); // derzeitiger Prozess wird zerstört (Zombie)
 	if (actActivity==(Activity *)active()){this->reschedule();}
 	remove((Schedulable *)actActivity); // falls die act laeyt, dann fuehre die naechste aus der Liste aus.
@@ -43,7 +44,7 @@ void ActivityScheduler::kill(Activity*  actActivity){
 
 void ActivityScheduler::exit(){
 
-	IntLock sicher;
+	//IntLock sicher;
 	Activity*  actActivity= (Activity*)this->active();// bekomme die aktuelle Aktivitaet
 	//actActivity-> changeTo(Activity::ZOMBIE);
 	kill(actActivity);
@@ -75,9 +76,11 @@ void ActivityScheduler::activate(Schedulable* to){
 						//hole eine von Queue
 						warten=false;
 						nextActivity =  (Activity*) readylist.dequeue();
-						CPU::enableInterrupts(); //Zulassen der Interrupts
+						//CPU::enableInterrupts(); //Zulassen der Interrupts
+						monitor.leave();
 						CPU::halt();// Anhalten der CPU bis zum naechsten Interrupt
-						CPU::disableInterrupts();// Sperren der Interrupts.
+						monitor.enter();
+						//CPU::disableInterrupts();// Sperren der Interrupts.
 					}
 				}
 
@@ -117,7 +120,6 @@ void ActivityScheduler::activate(Schedulable* to){
 
 void ActivityScheduler::checkSlice(){
 
-	IntLock sicher;
 	Schedulable* actuellActivity = (Activity*) active();
 	// quatum() ist das max Zeit bei dem gewechselt wird . ticks() liefert die aktuelle Zeit
 

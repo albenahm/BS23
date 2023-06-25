@@ -135,7 +135,7 @@ Activity:: ~Activity(){
 
 	void Activity::join(){
 
-		IntLock sicher;
+		//IntLock sicher;
 
         Activity* aktuellProzess=(Activity*) scheduler.active();// acktive Prozess in einer lokal Variable 
 
