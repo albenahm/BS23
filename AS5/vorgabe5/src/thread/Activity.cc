@@ -75,17 +75,14 @@ Activity:: ~Activity(){
 	 */
 
 	void Activity::wakeup(){
-		IntLock sicher;
 
-	if(this->isBlocked()){
+		this->zustand=READY;
 
-        	this->zustand=READY;
+		scheduler.schedule(this);// in ready list gebracht
 
-        	scheduler.schedule(this);// in ready list gebracht
+	}
 
-    	}
-
-    }
+    
 
 
 
@@ -112,8 +109,6 @@ Activity:: ~Activity(){
         if(this->activitat != 0){
 
         	this->activitat->wakeup();
-
-        	this->activitat=0;
 
         } // wenn Aktinitat nicht leer dann aufwachen
 
@@ -146,7 +141,7 @@ Activity:: ~Activity(){
         while(!(this->isZombie())&& this !=aktuellProzess){
 
   		this->activitat=(Activity*) scheduler.active();
-            	scheduler.suspend();// Unterbrechung der laufenden Prozess
+            scheduler.suspend();// Unterbrechung der laufenden Prozess
 
         }
 

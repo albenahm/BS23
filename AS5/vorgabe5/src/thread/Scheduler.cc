@@ -1,5 +1,6 @@
 #include "thread/Scheduler.h"
 #include "io/PrintStream.h"
+#include "interrupts/IntLock.h"
 
 
 //Einfuegen in Ready Liste

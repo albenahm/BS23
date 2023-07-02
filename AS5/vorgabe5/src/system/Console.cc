@@ -2,8 +2,8 @@
 #include "device/Keyboard.h"
 
 
-Console::Console(InputChannel& input, OutputChannel& output): input(input),output(output){
-    this->semaphore=1;
+Console::Console(InputChannel& input, OutputChannel& output): input(input),output(output),semaphore(1){
+
 }
 
 /** 	Konsole reservieren
@@ -34,21 +34,19 @@ int Console::write(const char* data, int size){
 *	und zaehlen als gueltiges Zeichen!
 */
 int Console::read(char *data, int size){
-    char buchstabe;
-    int i=0;
+    KernelLock lock;
+    int count=0;
 
-    while (size>i)
+    while (size>count)
     {
-        buchstabe=read(); // lese die Buchstabe
-        data[i]=buchstabe; // speicher in data Buffer
+        char buchstabe=read(); // lese die Buchstabe
+        data[count++]=buchstabe; // speicher in data Buffer
         output.write(buchstabe); // liefere Buchstabe zu Bildschirm
         if(buchstabe=='\n'){
                 break;
         }
-        i++; // die naechste
     }
-
-    return i;
+    return count;
     
 
 }
@@ -56,7 +54,10 @@ int Console::read(char *data, int size){
 /** 	Liefert das n�chste Zeichen aus dem Eingabepuffer zur�ck.
  */
 char Console::read(){
-    unsigned char val =keyboard.read().getValue();
+    
+    //unsigned char val= keyboard.read().getValue();
+    char val;
+    input.read(&val,1);
     return val;
 
 }

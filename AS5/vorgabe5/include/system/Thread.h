@@ -23,14 +23,12 @@ public:
 	explicit Thread(int slice=1)
 	{
 		this->quantum(slice);
-		this->quantumOrginal(slice);
 	}
 
 	explicit Thread(void* tos, int slice=1):Activity(tos)
 	{
 		
 		this->quantum(slice);
-		this->quantumOrginal(slice);
 
 	}
 

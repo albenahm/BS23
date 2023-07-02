@@ -42,7 +42,7 @@ void Hello::run()
 		int size = console.read(line, LINE_SIZE);
 
 		out.print("got: ");
-		out.print(size);
+		out.print(size -1 );
 		out.print(" ");
 
 		line[size-1] = '\0'; // '\n' durch '\0' ersetzen

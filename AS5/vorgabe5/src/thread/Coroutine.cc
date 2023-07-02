@@ -1,5 +1,6 @@
 #include "thread/Coroutine.h"
 #include "sync/Monitor.h"
+#include "device/CPU.h"
 
 
 /* Diese Funktion hat nur die Aufgabe
@@ -26,13 +27,13 @@ void Coroutine::startup(Coroutine* obj){
 void Coroutine::setup(void* tos){
     if(tos==0){return;}
     else{
-        CoroutineStack *stack = ((CoroutineStack*) tos); // 48 bytes 384 bits
+        CoroutineStack *stack = ((CoroutineStack*) tos)-1; // 48 bytes 384 bits
         stack->edi=0;
         stack->esi=0;
         stack->ebx=0;
         stack->ebp=0;
 
-        stack->coroutine = &startup; // Zeiger auf startup 
+        stack->coroutine = startup; // Zeiger auf startup 
         stack->adress_ret= 0;
         stack->coroutine_obj=this;
         this->sp=stack;

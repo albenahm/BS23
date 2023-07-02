@@ -122,20 +122,12 @@ void ActivityScheduler::checkSlice(){
 
 	Schedulable* actuellActivity = (Activity*) active();
 	// quatum() ist das max Zeit bei dem gewechselt wird . ticks() liefert die aktuelle Zeit
+	if(actuellActivity){
+		if((actuellActivity->quantum()) <= (clock.ticks())){
+			clock.setTicksZahl(0);
+			reschedule();
 
-	if((actuellActivity->quantum()) <= (clock.ticks())){
-		clock.setTicksZahl(0);
-		reschedule();
-
+		}
 	}
 
-
-// if((actuellActivity->quantum()!=0)){
-// 	actuellActivity->quantum(actuellActivity->quantum()-1); // wenn Quantum bei akutellen Aktiviutat nicht 0 ist, dann wird um 1 reduziert
-
-// }else{
-// 	actuellActivity->quantum(actuellActivity->quantumOrginal()); // wird quantum wieder gesetzt im Bezug auf dem urspruglichen Wert
-// 	reschedule();
-
-// }
 }

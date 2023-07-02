@@ -3,6 +3,7 @@
 #include "thread/Activity.h"
 #include "thread/ActivityScheduler.h"
 #include "interrupts/IntLock.h"
+#include "sync/KernelLock.h"
 
 
 /** Diese Klasse stellt einen begrenzten synchronisierten
@@ -41,7 +42,7 @@ public:
 
 		if(aktuellActivity !=0){ // falls es eine wartende Aktivitaet, dann wird sie aufgewacht
 			this->aktuellActivity->wakeup();
-			this->aktuellActivity=0; // geloescht, um neue zu bestimmen
+			//this->aktuellActivity=0; // geloescht, um neue zu bestimmen
 
 		}
 
@@ -54,12 +55,12 @@ public:
 	 */
 	T get()
 	{
-		IntLock sicher; // erlaube keine interrupts in diesem Block 
+		//IntLock sicher; // erlaube keine interrupts in diesem Block 
 
 		// Wenn Buffer leer ist
 		if(Zaehler==0){
 			this->aktuellActivity=(Activity*) scheduler.active(); // hole die aktuelle Aktivitaet
-			scheduler.suspend(); // Suspendieren des aktiven Prozesses
+			this->aktuellActivity->sleep(); // Suspendieren des aktiven Prozesses
 		}
 
 		this->Zaehler--; //reduziere Zaehler um eins 

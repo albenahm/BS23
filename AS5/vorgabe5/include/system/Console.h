@@ -4,6 +4,7 @@
 #include "io/InputChannel.h"
 #include "io/OutputChannel.h"
 #include "system/Semaphore.h"
+#include "device/CgaChannel.h"
 
 /**
  *  Console:	Die Systemkonsole

@@ -83,6 +83,7 @@ public:
 private:
 	BoundedBuffer<Key,BUFFER_SIZE> buffer;   //Der Tastaturpuffer
 	BoundedBuffer<unsigned char,BUFFER_SIZE> scanCode_Buffer; // ScanCode Buffer
+	int zaehler;                            // zaehlt die Buchstabe in Buffer  
 	CodeTable codeTable;                    //Abbildung von Scancode -> Zeichen
 	unsigned char scanCode;                 //Der letzte von der Tastatur gelesen code
 	unsigned mode;                          //Eingabemodus (Shift, Alt, Ctrl)

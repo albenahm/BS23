@@ -21,7 +21,7 @@ PIT::PIT (int us):kontroll(CONTROL_PORT),data(DATA_PORT){
      */
 void PIT::interval (int us){
 
-    int nsBasis = us* 1000; // umwandle Basis von ns in us 
+    int nsBasis = us; // umwandle Basis von ns in us 
     //int statt roundeven ?
     int tickzahlen = (nsBasis /TIME_BASE); //rechne die tick Anzahlen und speichere in short (16 bits)
 

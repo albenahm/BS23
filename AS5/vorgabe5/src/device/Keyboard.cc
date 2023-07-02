@@ -38,6 +38,7 @@ bool Keyboard::prologue(){
 	}else{
 		scanCode = dataPort.read();
 		scanCode_Buffer.add(scanCode); // packe scanCode in Buffer
+		zaehler++; // erhoehe die Zaehler um eins fue ein Buchstabe
 	}
 	pic.ack(PIC::KEYBOARD);
 	return true;
@@ -45,13 +46,13 @@ bool Keyboard::prologue(){
 
 void Keyboard::epilogue(){
 
-	monitor.leave();// falls epilogue noch nicht ausgefuehrt wird.
 
-	while (scanCode_Buffer.getBufferZaeler()>0)
+	while (zaehler>0)
 	{
-		monitor.enter();//Die Methode zum betreten, sperren des Monitors, aus der Anwendung heraus.
+		CPU::disableInterrupts();// sperre alle Interrrupts
+		zaehler--;
 		scanCode=scanCode_Buffer.get();// hole ein scancode 
-		monitor.leave();
+		CPU::enableInterrupts();
 		analyzeScanCode();
 	}
 	

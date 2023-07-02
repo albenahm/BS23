@@ -1,8 +1,7 @@
 #ifndef Coroutine_h
 #define Coroutine_h
 
-#include "device/CPU.h"
-extern CPU cpu;
+
 
 /*
  * Coroutine:
